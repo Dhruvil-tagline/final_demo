@@ -1,0 +1,11 @@
+.heading{
+    text-align: center;
+    color: rgb(18, 219, 206);
+}
+
+.error{
+    color: red;
+}
+.horizontalRule{
+    border-top: 1px solid rgb(18, 219, 206);
+}
