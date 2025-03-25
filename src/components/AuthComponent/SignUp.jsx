@@ -4,10 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { dropDownValidate, validateEmail, validateName, validatePassword } from '../../utils/validation';
 import { postRequest } from '../../utils/api';
-import InputCom from '../../sharedComponent/InputCom';
-import ButtonCom from '../../sharedComponent/ButtonCom';
-import DropDown from '../../sharedComponent/DropDown';
-import Loader from '../../sharedComponent/Loader';
+import InputCom from '../../shared/InputCom';
+import ButtonCom from '../../shared/ButtonCom';
+import DropDown from '../../shared/DropDown';
+import Loader from '../../shared/Loader';
 import { signUpUserObj, sigUpErrorObj } from '../../utils/staticObj';
 
 

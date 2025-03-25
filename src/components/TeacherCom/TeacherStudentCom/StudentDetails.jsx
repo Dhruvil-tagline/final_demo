@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getRequest } from '../../../utils/api';
-import ButtonCom from '../../../SharedComponent/ButtonCom';
-import Table from '../../../SharedComponent/Table';
+import ButtonCom from '../../../shared/ButtonCom';
+import Table from '../../../shared/Table';
 import { useSelector } from 'react-redux';
 import { studentTableHeader } from '../../../utils/staticObj';
 

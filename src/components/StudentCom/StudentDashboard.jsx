@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import Table from '../../SharedComponent/Table';
+import Table from '../../shared/Table';
 import { getRequest } from '../../utils/api';
-import ButtonCom from '../../SharedComponent/ButtonCom';
+import ButtonCom from '../../shared/ButtonCom';
 import { useSelector } from 'react-redux';
-const tableHeader = ['Index', 'Subject', 'Email', 'Notes', 'Action'];
+import { studentDashboardHeader } from '../../utils/staticObj';
 
 const StudentDashboard = () => {
   const user = useSelector((state) => state.auth);
@@ -43,7 +43,7 @@ const StudentDashboard = () => {
         <h1>Role: {user?.user?.role}</h1>
       </div>
       <div  style={{maxWidth:"1100px", margin:"0 auto"}}>        
-        <Table tableData={tableData} tableHeader={tableHeader} isLoading={loading} minWidth={'900px'} />
+        <Table tableData={tableData} tableHeader={studentDashboardHeader} isLoading={loading} minWidth={'900px'} />
        </div>
     </div>
   )

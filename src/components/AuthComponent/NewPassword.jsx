@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import './AuthCss/SignUp.css'
 import { getRequest, postRequest } from '../../utils/api';
 import { validateEmpty, validatePassword } from '../../utils/validation';
-import InputCom from '../../sharedComponent/InputCom';
-import ButtonCom from '../../sharedComponent/ButtonCom';
-import Loader from '../../sharedComponent/Loader';
+import InputCom from '../../shared/InputCom';
+import ButtonCom from '../../shared/ButtonCom';
+import Loader from '../../shared/Loader';
 
 const NewPassword = () => {
     const [loading, setLoading] = useState(false);

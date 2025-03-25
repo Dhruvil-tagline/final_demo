@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ButtonCom from '../../SharedComponent/ButtonCom';
-import Table from '../../SharedComponent/Table';
+import ButtonCom from '../../shared/ButtonCom';
+import Table from '../../shared/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteExam, fetchExams } from '../../action/examActions';
 import { examListHeader } from '../../utils/staticObj';

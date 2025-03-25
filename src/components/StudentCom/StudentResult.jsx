@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
-import Table from '../../SharedComponent/Table';
+import Table from '../../shared/Table';
 import { useSelector } from 'react-redux';
-const tableHeader = ['Index', 'Subject', "Score", 'Rank'];
+import { studentResultHeader } from '../../utils/staticObj';
 
 const StudentResult = () => {
   const { state } = useLocation();
@@ -17,7 +17,7 @@ const StudentResult = () => {
       <h1 style={{ color: " rgb(18, 219, 206)" }}> Hello" {user?.user?.name || 'Unknown'} your Result is</h1>
       <p style={{ padding: "10px 0px" }}> {user?.user?.email || 'Data not found'}</p>
       <div style={{ maxWidth: "900px", padding: "10px", width: "100%" }}>
-        <Table tableData={tableData} tableHeader={tableHeader} minWidth={'450px'} />
+        <Table tableData={tableData} tableHeader={studentResultHeader} minWidth={'450px'} />
       </div>
     </div>
 

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Link, useNavigate, } from 'react-router-dom'
 import './AuthCss/SignUp.css'
 import { validateEmail, validatePassword } from '../../utils/validation';
-import InputCom from '../../sharedComponent/InputCom';
-import ButtonCom from '../../sharedComponent/ButtonCom';
-import Loader from '../../sharedComponent/Loader';
+import InputCom from '../../shared/InputCom';
+import ButtonCom from '../../shared/ButtonCom';
+import Loader from '../../shared/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../action/authAction';
 import { errorObj, userObj } from '../../utils/staticObj';

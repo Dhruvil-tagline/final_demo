@@ -28,6 +28,10 @@ export const signUpUserObj = {
 export const allStudentHeader = ['Index', 'Name', 'Email', 'Status', 'Action'];
 export const studentTableHeader = ['Index', 'Subject', 'Score', 'Rank'];
 export const examListHeader = ['Subject', 'Email', 'Notes', 'View Exam', 'Delete Exam'];
+export const examFormHeader = ['Index', 'Question', 'Answer', 'Action'];
+export const studentDashboardHeader = ['Index', 'Subject', 'Email', 'Notes', 'Action'];
+export const studentResultHeader = ['Index', 'Subject', "Score", 'Rank'];
+export const examDetailHeader = ['Index', 'Question', 'Answer', 'Action'];
 
 
 

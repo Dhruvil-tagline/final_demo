@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail } from '../../utils/validation';
 import './AuthCss/SignUp.css'
-import InputCom from '../../sharedComponent/InputCom';
-import ButtonCom from '../../sharedComponent/ButtonCom';
+import InputCom from '../../shared/InputCom';
+import ButtonCom from '../../shared/ButtonCom';
 import { postRequest } from '../../utils/api';
-import Loader from '../../sharedComponent/Loader';
+import Loader from '../../shared/Loader';
 
 const ForgetPassword = () => {
     const [search, setSearch] = useState('');
