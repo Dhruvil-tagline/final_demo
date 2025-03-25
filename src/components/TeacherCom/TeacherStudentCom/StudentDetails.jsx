@@ -38,7 +38,7 @@ const StudentDetails = () => {
       }
     };
     fetchStudentDetails();
-  }, [id]);
+  }, [id, token]);
 
   return (
     <div
@@ -84,7 +84,10 @@ const StudentDetails = () => {
             border: "none",
             cursor: "pointer",
           }}
-        > Back </ButtonCom>
+        >
+          {" "}
+          Back{" "}
+        </ButtonCom>
       </div>
     </div>
   );

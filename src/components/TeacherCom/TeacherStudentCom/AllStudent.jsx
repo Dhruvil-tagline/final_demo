@@ -18,7 +18,7 @@ const AllStudent = () => {
       ? "dashboard/Teachers"
       : "dashboard/Teachers/StudentForExam";
     dispatch(allStudentList(apiEndpoint, token));
-  }, [allStudent]);
+  }, [allStudent, token]);
 
   const tableData = useMemo(() => {
     return (

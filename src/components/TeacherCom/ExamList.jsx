@@ -26,7 +26,7 @@ const ExamList = () => {
   };
   useEffect(() => {
     dispatch(fetchExams(token));
-  }, []);
+  }, [token]);
 
   const tableData = useMemo(() => {
     return examsList?.exams?.map((val) => ({

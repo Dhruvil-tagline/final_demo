@@ -120,18 +120,35 @@ const TeacherForm = () => {
     const areAllOptionsFilled = updatedQuestions[qIndex].options.every(
       (opt) => opt.trim() !== "",
     );
-    const uniqueOptions = new Set(updatedQuestions[qIndex].options);
-    const hasDuplicateOptions =
-      uniqueOptions.size !== updatedQuestions[qIndex].options.length;
-    setQuestionsError((prev) => ({
-      ...prev,
-      optionsError: areAllOptionsFilled
-        ? hasDuplicateOptions
-          ? "Same option not allowed"
-          : ""
-        : "All 4 options must be filled",
-    }));
+    let uniqueOpt = updatedQuestions[qIndex].options.every(
+      (val, index, arr) => {
+        if (!val) {
+          return true;
+        }
+        if (val) {
+          return arr.every((val2, idx) => {
+            if (idx == index) {
+              return true;
+            } else {
+              return val2.trim() !== val.trim();
+            }
+          });
+        }
+      },
+    );
 
+    if (!uniqueOpt) {
+      setQuestionsError((prev) => ({
+        ...prev,
+        optionsError: "Same option not allowed",
+      }));
+    } else if (areAllOptionsFilled) {
+      setQuestionsError((prev) => ({
+        ...prev,
+        optionsError: "",
+      }));
+    }
+   
     updatedQuestions[qIndex].answer = "";
     setExamData({ ...examData, questions: updatedQuestions });
   };
@@ -178,14 +195,11 @@ const TeacherForm = () => {
       if (result) {
         !result.every((val) => val) &&
           (errors.queError = "Please fill out all the question");
-      } else {
-        !allQuestionError.every((val) => val) &&
-          (errors.queError = "Please fill out all the question");
       }
       setError(errors);
       return Object.values(errors).every((val) => !val);
     },
-    [examData, allQuestionError],
+    [examData],
   );
 
   const handleSubmit = async (e) => {

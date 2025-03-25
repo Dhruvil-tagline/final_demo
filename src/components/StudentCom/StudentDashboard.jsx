@@ -26,7 +26,7 @@ const StudentDashboard = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [user?.token]);
 
   const tableData = useMemo(() => {
     return exam.map((val, index) => ({
