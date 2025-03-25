@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 
 const Home = () => {
   const { pathname } = useLocation();
@@ -7,7 +7,8 @@ const Home = () => {
     return <Navigate to='/dashboard' />
   }
   return (
-    <div>
+    <div style={{ minHeight: "100vh", height: "100%", }}>
+
       <Navbar />
       <div style={{marginTop:"20px"}}>
       <Outlet />

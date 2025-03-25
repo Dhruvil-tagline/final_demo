@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import InputCom from '../CommonComponent/InputCom'
-import ButtonCom from '../CommonComponent/ButtonCom';
+import InputCom from '../sharedComponent/InputCom'
+import ButtonCom from '../sharedComponent/ButtonCom';
 import { validateEmpty, validatePassword } from '../utils/validation';
 import { postRequest } from '../utils/api';
 import { toast } from 'react-toastify';
-import Loader from '../CommonComponent/Loader';
+import Loader from '../sharedComponent/Loader';
 import { useSelector } from 'react-redux';
 import { resetPasswordErrorObj, resetPasswordObj } from '../utils/staticObj';
 

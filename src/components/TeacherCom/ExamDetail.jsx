@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ButtonCom from "../../CommonComponent/ButtonCom";
-import Table from "../../CommonComponent/Table";
+import ButtonCom from "../../SharedComponent/ButtonCom";
+import Table from "../../SharedComponent/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEditExamList } from "../../action/examActions";
 const tableHeader = ['Index', 'Question', 'Answer', 'Action'];
@@ -57,7 +57,7 @@ const ExamDetail = () => {
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", padding: "0px 20px" }}>
             <div style={{ width: "100%", maxWidth: "900px" }}>
-                <Table tableData={tableData} tableHeader={tableHeader} isLoading={examListObj.loading} />
+                <Table tableData={tableData} tableHeader={tableHeader} isLoading={examListObj.loading} minWidth={'500px'} />
             </div>  
         </div>
     );

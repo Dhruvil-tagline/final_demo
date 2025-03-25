@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import ButtonCom from '../../CommonComponent/ButtonCom';
 import ExamList from './ExamList';
 import { useNavigate } from 'react-router-dom';
+import ButtonCom from '../../SharedComponent/ButtonCom';
 
 const TeacherDashboard = () => {
   const navigate = useNavigate();

@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { putRequest } from '../../utils/api';
 import { validateName } from '../../utils/validation';
-import InputCom from '../../CommonComponent/InputCom';
-import ButtonCom from '../../CommonComponent/ButtonCom';
+import InputCom from '../../sharedComponent/InputCom';
+import ButtonCom from '../../sharedComponent/ButtonCom';
 import './studCss/student.css'
-import Loader from '../../CommonComponent/Loader';
+import Loader from '../../sharedComponent/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 
 

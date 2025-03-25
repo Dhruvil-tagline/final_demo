@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { validateEmpty } from "../../utils/validation";
-import InputCom from "../../CommonComponent/InputCom";
-import RadioCom from "../../CommonComponent/RadioCom";
-import ButtonCom from "../../CommonComponent/ButtonCom";
+import InputCom from "../../sharedComponent/InputCom";
+import RadioCom from "../../sharedComponent/RadioCom";
+import ButtonCom from "../../sharedComponent/ButtonCom";
 import { useLocation, useNavigate } from "react-router-dom";
-import Loader from "../../CommonComponent/Loader";
+import Loader from "../../sharedComponent/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { createExam, updateExam } from "../../action/examActions";
 import { questionsErrorObj, teacherErrorObj, TOTAL_QUESTIONS } from "../../utils/staticObj";

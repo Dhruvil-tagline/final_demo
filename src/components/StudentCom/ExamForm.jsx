@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getRequest, postRequest } from '../../utils/api';
-import ButtonCom from '../../CommonComponent/ButtonCom';
-import RadioCom from '../../CommonComponent/RadioCom';
-import Table from '../../CommonComponent/Table';
+import ButtonCom from '../../SharedComponent/ButtonCom';
+import RadioCom from '../../SharedComponent/RadioCom';
+import Table from '../../SharedComponent/Table';
 import { toast } from 'react-toastify';
 const tableHeader = ['Index', 'Question', 'Answer', 'Action'];
 import './studCss/student.css'
-import Loader from '../../CommonComponent/Loader';
+import Loader from '../../SharedComponent/Loader';
 import { useSelector } from 'react-redux';
 
 const ExamForm = () => {
@@ -142,7 +142,7 @@ const ExamForm = () => {
                                     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                                         <h2>Review Your Answers</h2>
                                         <div>
-                                            <Table tableData={tableData} tableHeader={tableHeader} dataNotFound={!exam.length} />
+                                                <Table tableData={tableData} tableHeader={tableHeader} dataNotFound={!exam.length} minWidth={'600px'} />
                                         </div>
                                         <ButtonCom text="Final Submit" onClick={handleSubmit} />
                                     </div>

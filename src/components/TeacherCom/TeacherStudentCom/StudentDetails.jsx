@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getRequest } from '../../../utils/api';
-import ButtonCom from '../../../CommonComponent/ButtonCom';
-import Table from '../../../CommonComponent/Table';
+import ButtonCom from '../../../SharedComponent/ButtonCom';
+import Table from '../../../SharedComponent/Table';
 import { useSelector } from 'react-redux';
 import { studentTableHeader } from '../../../utils/staticObj';
 
@@ -44,7 +44,7 @@ const StudentDetails = () => {
             <p>Email: { studentData?.email}</p>
             </div>
             <div style={{maxWidth:"900px", width:"100%", padding:"20px"}}>
-                <Table tableHeader={studentTableHeader} tableData={tableData} isLoading={loading} />
+                <Table tableHeader={studentTableHeader} tableData={tableData} isLoading={loading} minWidth={'500px'} />
             </div>
             <div style={{ textAlign: 'center', marginTop: '10px' }}>
                 <ButtonCom text='Back' onClick={() => navigate(-1)} style={{ backgroundColor: '#f1c40f', color: '#121212', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer' }} />

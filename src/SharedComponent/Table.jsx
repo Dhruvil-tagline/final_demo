@@ -1,10 +1,10 @@
 import './ComponentCss/table.css'
 
-const Table = ({ tableHeader, tableData, isLoading }) => {
+const Table = ({ tableHeader, tableData, isLoading, minWidth }) => {
 
   return (
     <div className='table-container'>
-      <table>
+      <table style={{ minWidth: minWidth || '800px' }}>
         <thead >
           <tr>
             {!!tableHeader.length && tableHeader.map((val, index) => <th key={index}>{val}</th>)}

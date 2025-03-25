@@ -14,6 +14,7 @@ export const postRequest = async (url, data, headers = {}) => {
         });
         return response.data;
     } catch (error) {
+        console.log(error)
         toast.error(error?.message || 'server Error');
     }
 

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import ButtonCom from '../CommonComponent/ButtonCom'
+import ButtonCom from '../../sharedComponent/ButtonCom'
 
 const PageNotFound = () => {
     const navigate = useNavigate()

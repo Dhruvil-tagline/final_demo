@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import Table from '../../CommonComponent/Table';
+import Table from '../../SharedComponent/Table';
 import { getRequest } from '../../utils/api';
-import ButtonCom from '../../CommonComponent/ButtonCom';
+import ButtonCom from '../../SharedComponent/ButtonCom';
 import { useSelector } from 'react-redux';
 const tableHeader = ['Index', 'Subject', 'Email', 'Notes', 'Action'];
 
@@ -43,7 +43,7 @@ const StudentDashboard = () => {
         <h1>Role: {user?.user?.role}</h1>
       </div>
       <div  style={{maxWidth:"1100px", margin:"0 auto"}}>        
-        <Table tableData={tableData} tableHeader={tableHeader} isLoading={loading} />
+        <Table tableData={tableData} tableHeader={tableHeader} isLoading={loading} minWidth={'900px'} />
        </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ButtonCom from '../../CommonComponent/ButtonCom';
-import Table from '../../CommonComponent/Table';
+import ButtonCom from '../../SharedComponent/ButtonCom';
+import Table from '../../SharedComponent/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteExam, fetchExams } from '../../action/examActions';
 import { examListHeader } from '../../utils/staticObj';
@@ -36,7 +36,7 @@ const ExamList = () => {
     return (
         <div>   
             <div style={{ maxWidth: "1100px", margin: "0px auto"}}>
-                <Table tableHeader={examListHeader} tableData={tableData} isLoading={examsList.loading}/>
+                <Table tableHeader={examListHeader} tableData={tableData} isLoading={examsList.loading} minWidth={'1000px'} />
             </div>
         </div>
     )

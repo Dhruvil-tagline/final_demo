@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { getCookie } from "../utils/getCookie";
-import TeacherDashboard from "./TeacherCom/TeacherDashboard";
-import StudentDashboard from "./StudentCom/StudentDashboard";
+import { getCookie } from "../../utils/getCookie";
+import StudentDashboard from "../StudentCom/StudentDashboard";
+import TeacherDashboard from "../TeacherCom/TeacherDashboard";
 
 const Dashboard = () => {
         const user = getCookie('authUser');

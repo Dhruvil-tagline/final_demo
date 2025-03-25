@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
-import ButtonCom from '../CommonComponent/ButtonCom';
+import ButtonCom from '../sharedComponent/ButtonCom';
 import menu from '../assets/menu.svg'
 import exam from '../assets/exam.png'
 import '../Css/Navbar.css'

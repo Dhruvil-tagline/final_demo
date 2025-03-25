@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ButtonCom from '../../../CommonComponent/ButtonCom';
-import Table from '../../../CommonComponent/Table';
+import ButtonCom from '../../../sharedComponent/ButtonCom';
+import Table from '../../../sharedComponent/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { allStudentList } from '../../../action/teacherStudent';
 import '../TeacherComCss/slider.css'
