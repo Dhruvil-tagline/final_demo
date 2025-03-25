@@ -85,7 +85,7 @@ const EditProfile = () => {
           onChange={handleChange}
           placeholder="Enter your name..."
         />
-        <ButtonCom text="Update name" onClick={handleSubmit} />
+        <ButtonCom onClick={handleSubmit}>Update name</ButtonCom>
       </form>
     </div>
   );

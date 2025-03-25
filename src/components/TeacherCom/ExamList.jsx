@@ -11,7 +11,6 @@ const ExamList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const examsList = useSelector((state) => state.exams);
-
   const handleExaView = (exam) => {
     navigate(`/exam/${exam._id}`, {
       state: { subject: exam.subjectName, notes: exam.notes },
@@ -52,6 +51,7 @@ const ExamList = () => {
           tableHeader={examListHeader}
           tableData={tableData}
           isLoading={examsList.loading}
+          error={examsList.error}
           minWidth={"1000px"}
         />
       </div>

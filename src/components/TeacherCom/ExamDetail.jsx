@@ -43,7 +43,7 @@ const ExamDetail = () => {
   }, [examListObj]);
 
   const handleEdit = (index) => {
-    navigate(`/exam/edit/${state.id}`, {
+    navigate(`/updateExam/${id}`, {
       state: {
         subject: initialSubject,
         notes: initialNotes,
@@ -83,6 +83,7 @@ const ExamDetail = () => {
           tableHeader={examDetailHeader}
           isLoading={examListObj.loading}
           minWidth={"500px"}
+          error={examListObj.error}
         />
       </div>
     </div>

@@ -12,15 +12,21 @@ const StudentDashboard = () => {
 
   const [exam, setExam] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
         let response = await getRequest("student/studentExam", user?.token);
         if (response.statusCode === 200) {
           setExam(response.data);
+        } else {
+          setError(response?.message || "Error occurred");
         }
+      } catch (error) {
+        setError(error?.message || "Error occurred");
       } finally {
         setLoading(false);
       }
@@ -35,13 +41,11 @@ const StudentDashboard = () => {
       Email: val.email,
       Notes: val.notes.join(", "),
       Action: val?.Result?.length ? (
-        <ButtonCom
-          text="View result"
-          onClick={() => navigate("/result", { state: val })}
-        />
+        <ButtonCom onClick={() => navigate("/result", { state: val })}>
+          View result
+        </ButtonCom>
       ) : (
         <ButtonCom
-          text="Start Exam"
           onClick={() =>
             navigate("/examForm", {
               state: {
@@ -51,7 +55,9 @@ const StudentDashboard = () => {
               },
             })
           }
-        />
+        >
+          Start Exam
+        </ButtonCom>
       ),
     }));
   }, [exam]);
@@ -79,6 +85,7 @@ const StudentDashboard = () => {
           tableHeader={studentDashboardHeader}
           isLoading={loading}
           minWidth={"900px"}
+          error={error}
         />
       </div>
     </div>

@@ -10,7 +10,7 @@ export const userObj = {
 
 export const teacherNavObj = [
   { to: "dashboard", text: "Dashboard" },
-  { to: "student", text: "Student" },
+  { to: "students", text: "Student" },
   { to: "profile", text: "Profile" },
 ];
 

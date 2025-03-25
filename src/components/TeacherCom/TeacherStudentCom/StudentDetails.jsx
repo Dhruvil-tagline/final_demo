@@ -10,6 +10,7 @@ const StudentDetails = () => {
   const { id } = useParams();
   const { token } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState({});
   let index = 1;
@@ -26,13 +27,18 @@ const StudentDetails = () => {
     const fetchStudentDetails = async () => {
       try {
         setLoading(true);
+        setError(null);
         const response = await getRequest(
           `dashboard/Teachers/viewStudentDetail?id=${id}`,
           token,
         );
         if (response.statusCode === 200) {
           setStudentData(response.data[0]);
+        } else {
+          setError(response?.message || "Error occurred");
         }
+      } catch (error) {
+        setError(error?.message || "Error occurred");
       } finally {
         setLoading(false);
       }
@@ -71,6 +77,7 @@ const StudentDetails = () => {
           tableData={tableData}
           isLoading={loading}
           minWidth={"500px"}
+          error={error}
         />
       </div>
       <div style={{ textAlign: "center", marginTop: "10px" }}>

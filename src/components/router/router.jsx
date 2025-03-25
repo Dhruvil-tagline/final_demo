@@ -44,7 +44,7 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "student",
+          path: "students",
           element: (
             <AuthTeacher>
               <AllStudent />
@@ -63,14 +63,14 @@ const router = createBrowserRouter(
             </AuthTeacher>
           ),
         },
-        {
-          path: "exam/create",
-          element: (
-            <AuthTeacher>
-              <TeacherForm />
-            </AuthTeacher>
-          ),
-        },
+        // {
+        //   path: "exam/create",
+        //   element: (
+        //     <AuthTeacher>
+        //       <TeacherForm />
+        //     </AuthTeacher>
+        //   ),
+        // },
         {
           path: "exam/:id",
           element: (
@@ -80,7 +80,7 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "exam/edit/:id",
+          path: "updateExam/:id",
           element: (
             <AuthTeacher>
               <TeacherForm />

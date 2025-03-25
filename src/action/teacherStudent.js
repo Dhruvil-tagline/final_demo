@@ -11,11 +11,11 @@ export const allStudentList = (apiEndpoint, token) => async (dispatch) => {
       });
     } else {
       dispatch({
-        type: "ETCH_TEACHER_STUDENT_FAILURE",
-        payload: response?.message,
+        type: "FETCH_TEACHER_STUDENT_FAILURE",
+        payload: response?.message || 'Error occurred',
       });
     }
   } catch (error) {
-    dispatch({ type: "ETCH_TEACHER_STUDENT_FAILURE", payload: error.message });
+    dispatch({ type: "FETCH_TEACHER_STUDENT_FAILURE", payload: error.message || 'Error occurred' });
   }
 };

@@ -78,6 +78,7 @@ const AllStudent = () => {
           tableHeader={allStudentHeader}
           tableData={tableData}
           isLoading={allStudentArray?.loading}
+          error={allStudentArray?.error}
         />
       </div>
     </div>

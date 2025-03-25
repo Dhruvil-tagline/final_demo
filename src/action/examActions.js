@@ -13,10 +13,16 @@ export const fetchExams = (token) => async (dispatch) => {
     if (response?.statusCode === 200) {
       dispatch({ type: "FETCH_EXAMS_SUCCESS", payload: response.data });
     } else {
-      dispatch({ type: "FETCH_EXAMS_FAILURE", payload: response?.message });
+      dispatch({
+        type: "FETCH_EXAMS_FAILURE",
+        payload: response?.message || "Error occurred",
+      });
     }
   } catch (error) {
-    dispatch({ type: "FETCH_EXAMS_FAILURE", payload: error.message });
+    dispatch({
+      type: "FETCH_EXAMS_FAILURE",
+      payload: error.message || "Error occurred",
+    });
   }
 };
 
@@ -32,10 +38,13 @@ export const deleteExam = (id, token) => async (dispatch) => {
       toast.success(response?.message);
     } else {
       dispatch({ type: "DELETE_EXAM_FAILURE", payload: response?.message });
-      toast.error(response?.message);
+      toast.error(response?.message || "Error occurred");
     }
   } catch (error) {
-    dispatch({ type: "DELETE_EXAM_FAILURE", payload: error.message });
+    dispatch({
+      type: "DELETE_EXAM_FAILURE",
+      payload: error.message || "Error occurred",
+    });
   }
 };
 
@@ -51,7 +60,7 @@ export const createExam = (examData, token, navigate) => async (dispatch) => {
       navigate(-1);
     } else {
       dispatch({ type: "CREATE_EXAM_FAILURE", payload: response.message });
-      toast.error(response.message);
+      toast.error(response.message || "Error occurred");
     }
   } catch (error) {
     dispatch({ type: "CREATE_EXAM_FAILURE", payload: error.message });
