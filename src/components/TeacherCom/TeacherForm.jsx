@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { validateEmpty } from "../../utils/validation";
-import InputCom from "../../shared/InputCom";
-import RadioCom from "../../shared/RadioCom";
-import ButtonCom from "../../shared/ButtonCom";
-import { useLocation, useNavigate } from "react-router-dom";
-import Loader from "../../shared/Loader";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createExam, updateExam } from "../../action/examActions";
-import { questionsErrorObj, teacherErrorObj, TOTAL_QUESTIONS } from "../../utils/staticObj";
-
+import ButtonCom from "../../shared/ButtonCom";
+import InputCom from "../../shared/InputCom";
+import Loader from "../../shared/Loader";
+import RadioCom from "../../shared/RadioCom";
+import {
+  questionsErrorObj,
+  teacherErrorObj,
+  TOTAL_QUESTIONS,
+} from "../../utils/staticObj";
+import { validateEmpty } from "../../utils/validation";
 
 const TeacherForm = () => {
   const { token } = useSelector((state) => state.auth);
@@ -18,7 +21,7 @@ const TeacherForm = () => {
   const { state } = useLocation();
   const [currentQuestion, setCurrentQuestion] = useState(state?.currentQ || 0);
   const [allQuestionError, setAllQuestionError] = useState(
-    Array(15).fill(false)
+    Array(15).fill(false),
   );
   const [questionsError, setQuestionsError] = useState(questionsErrorObj);
   const [error, setError] = useState(teacherErrorObj);
@@ -39,7 +42,9 @@ const TeacherForm = () => {
   const [isFormReset, setIsFormReset] = useState(false);
 
   const isDuplicateQuestion = (index, value) => {
-    return examData.questions.some((q, i) => i !== index && q.question.trim() === value.trim());
+    return examData.questions.some(
+      (q, i) => i !== index && q.question.trim() === value.trim(),
+    );
   };
 
   const handleInputChange = (index, field, value) => {
@@ -49,15 +54,20 @@ const TeacherForm = () => {
 
     if (field === "question") {
       if (!value.trim()) {
-        setQuestionsError((prev) => ({ ...prev, questionError: "Question cannot be empty" }));
+        setQuestionsError((prev) => ({
+          ...prev,
+          questionError: "Question cannot be empty",
+        }));
       } else if (isDuplicateQuestion(index, value)) {
-        setQuestionsError((prev) => ({ ...prev, questionError: "Duplicate question not allowed" }));
+        setQuestionsError((prev) => ({
+          ...prev,
+          questionError: "Duplicate question not allowed",
+        }));
       } else {
         setQuestionsError((prev) => ({ ...prev, questionError: "" }));
       }
     }
   };
-
   const handleQueValidate = (index) => {
     const errors = {};
     errors.optionsError = "";
@@ -72,7 +82,7 @@ const TeacherForm = () => {
     }
     errors.answerError = validateEmpty(
       updatedQuestions[index]?.answer,
-      "Answer"
+      "Answer",
     );
     if (questionsError.optionsError) {
       return false;
@@ -90,14 +100,14 @@ const TeacherForm = () => {
     let allQue;
     if (handleQueValidate(index)) {
       allQue = allQuestionError.map((val, arrIndex) =>
-        arrIndex === index ? true : val
+        arrIndex === index ? true : val,
       );
       setAllQuestionError(allQue);
       page === "previous" && setCurrentQuestion(currentQuestion - 1);
       page === "next" && setCurrentQuestion(currentQuestion + 1);
     } else {
       allQue = allQuestionError.map((val, arrIndex) =>
-        arrIndex === index ? false : val
+        arrIndex === index ? false : val,
       );
       setAllQuestionError(allQue);
     }
@@ -107,17 +117,23 @@ const TeacherForm = () => {
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updatedQuestions = [...examData.questions];
     updatedQuestions[qIndex].options[optIndex] = value;
-    const areAllOptionsFilled = updatedQuestions[qIndex].options.every(opt => opt.trim() !== "");
+    const areAllOptionsFilled = updatedQuestions[qIndex].options.every(
+      (opt) => opt.trim() !== "",
+    );
     const uniqueOptions = new Set(updatedQuestions[qIndex].options);
-    const hasDuplicateOptions = uniqueOptions.size !== updatedQuestions[qIndex].options.length;
+    const hasDuplicateOptions =
+      uniqueOptions.size !== updatedQuestions[qIndex].options.length;
     setQuestionsError((prev) => ({
       ...prev,
-      optionsError: areAllOptionsFilled ? (hasDuplicateOptions ? "Same option not allowed" : "") : "All 4 options must be filled",
+      optionsError: areAllOptionsFilled
+        ? hasDuplicateOptions
+          ? "Same option not allowed"
+          : ""
+        : "All 4 options must be filled",
     }));
 
     updatedQuestions[qIndex].answer = "";
     setExamData({ ...examData, questions: updatedQuestions });
-
   };
 
   const handleSubjectChange = (e) => {
@@ -132,7 +148,7 @@ const TeacherForm = () => {
   const handleNoteChange = (index, value) => {
     const updatedNotes = [...examData.notes];
     updatedNotes[index] = value;
-    const areNotesFilled = updatedNotes.every(note => note.trim() !== "");
+    const areNotesFilled = updatedNotes.every((note) => note.trim() !== "");
 
     setError((prev) => ({
       ...prev,
@@ -141,7 +157,6 @@ const TeacherForm = () => {
 
     setExamData({ ...examData, notes: updatedNotes });
   };
-
 
   const handleAnswerChange = (index, value) => {
     const updatedQuestions = [...examData.questions];
@@ -170,7 +185,7 @@ const TeacherForm = () => {
       setError(errors);
       return Object.values(errors).every((val) => !val);
     },
-    [examData, allQuestionError]
+    [examData, allQuestionError],
   );
 
   const handleSubmit = async (e) => {
@@ -220,10 +235,9 @@ const TeacherForm = () => {
       setAllQuestionError(Array(15).fill(true));
     }
   }, [state?.questions]);
-
   return (
     <div>
-      <div style={{paddingTop:"20px"}}>
+      <div style={{ paddingTop: "20px" }}>
         {exams?.loading && <Loader />}
         <h1 style={{ textAlign: "center", color: "rgb(18, 219, 206)" }}>
           {state?.examId ? "Edit Exam" : "Create Exam"}
@@ -245,7 +259,7 @@ const TeacherForm = () => {
           >
             <label htmlFor="subjectName" style={{ fontSize: "20px" }}>
               Subject Name
-            </label>{" "}
+            </label>
             {error.subjectError && (
               <span style={{ color: "red" }}>{error.subjectError}</span>
             )}
@@ -280,11 +294,10 @@ const TeacherForm = () => {
                 <div>
                   <label htmlFor="question">
                     Question {currentQuestion + 1}
-                  </label>{" "}
+                  </label>
                   {questionsError.questionError && (
                     <span style={{ color: "red" }}>
-                      {" "}
-                      {questionsError.questionError}{" "}
+                      {questionsError.questionError}
                     </span>
                   )}
                   <InputCom
@@ -297,15 +310,14 @@ const TeacherForm = () => {
                       handleInputChange(
                         currentQuestion,
                         "question",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                   />
                 </div>
                 {questionsError.optionsError && (
                   <span style={{ color: "red" }}>
-                    {" "}
-                    {questionsError.optionsError}{" "}
+                    {questionsError.optionsError}
                   </span>
                 )}
                 <div
@@ -329,23 +341,22 @@ const TeacherForm = () => {
                               handleOptionChange(
                                 currentQuestion,
                                 idx,
-                                e.target.value
+                                e.target.value,
                               )
                             }
                           />
                         </div>
-                      )
+                      ),
                     )}
                 </div>
                 <div style={{ padding: "20px 0px" }}>
                   <label>
-                    Select Correct Answer:{" "}
+                    Select Correct Answer:
                     {examData?.questions[currentQuestion]?.answer}
                   </label>
                   {questionsError.answerError && (
                     <span style={{ color: "red" }}>
-                      {" "}
-                      {questionsError?.answerError}{" "}
+                      {questionsError?.answerError}
                     </span>
                   )}
                 </div>
@@ -376,14 +387,14 @@ const TeacherForm = () => {
                               onChange={(e) =>
                                 handleAnswerChange(
                                   currentQuestion,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               text={opt}
                             />
                           </div>
                         );
-                      }
+                      },
                     )}
                 </div>
               </div>
@@ -399,19 +410,22 @@ const TeacherForm = () => {
                 <ButtonCom
                   type="button"
                   disabled={currentQuestion === 0}
-                  text="Previous"
                   onClick={() => {
                     handleQuestionSave(currentQuestion, "previous");
                   }}
-                />
+                >
+                  Previous
+                </ButtonCom>
+
                 <ButtonCom
                   type="button"
-                  text="Next"
                   disabled={currentQuestion === TOTAL_QUESTIONS - 1}
                   onClick={() => {
                     handleQuestionSave(currentQuestion, "next");
                   }}
-                />
+                >
+                  Next
+                </ButtonCom>
               </div>
             </div>
             <label style={{ fontSize: "20px" }}>Notes</label>
@@ -434,16 +448,16 @@ const TeacherForm = () => {
               }}
             >
               <ButtonCom
-                text="Cancel"
                 color="blue"
                 type="reset"
                 style={{ backgroundColor: "gray" }}
-              />
-              <ButtonCom
-                type="submit"
-                color="green"
-                text={state?.examId ? "Update" : "Submit"}
-              />
+              >
+                Cancel
+              </ButtonCom>
+
+              <ButtonCom type="submit" color="green">
+                {state?.examId ? "Update" : "Submit"}
+              </ButtonCom>
             </div>
           </form>
         </div>

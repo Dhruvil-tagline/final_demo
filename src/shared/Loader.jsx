@@ -1,11 +1,12 @@
-import './ComponentCss/Loader.css'
+import "./ComponentCss/Loader.css";
 const Loader = () => {
-
   return (
-    <div className='loader-container' >
-      <div className='loader-overlay'><span className="loader"></span></div>
+    <div className="loader-container">
+      <div className="loader-overlay">
+        <span className="loader"></span>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

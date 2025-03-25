@@ -4,14 +4,14 @@ import StudentDashboard from "../StudentCom/StudentDashboard";
 import TeacherDashboard from "../TeacherCom/TeacherDashboard";
 
 const Dashboard = () => {
-        const user = getCookie('authUser');
-    if (user?.role === "teacher") {
-        return <TeacherDashboard/>;
-    } else if (user?.role === "student") {
-        return <StudentDashboard />;
-    } else {
-        return <Navigate to="/login" />;
-    }
+  const user = getCookie("authUser");
+  if (user?.role === "teacher") {
+    return <TeacherDashboard />;
+  } else if (user?.role === "student") {
+    return <StudentDashboard />;
+  } else {
+    return <Navigate to="/login" />;
+  }
 };
 
 export default Dashboard;

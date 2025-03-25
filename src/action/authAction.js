@@ -12,11 +12,11 @@ export const loginUser = (user, navigate) => async (dispatch) => {
       document.cookie = `authUser=${JSON.stringify(response?.data)};path=/; max-age=${60 * 60}; secure`;
       dispatch({
         type: "LOGIN_SUCCESS",
-        payload: { user: response.data, token: response.data.token }
+        payload: { user: response.data, token: response.data.token },
       });
 
       toast.success(response.message);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } else {
       dispatch({ type: "LOGIN_FAILURE", payload: "Invalid Credentials" });
       toast.info(response.message);
