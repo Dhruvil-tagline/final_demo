@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 
 const Home = () => {
   const { pathname } = useLocation();
+
   if (pathname === "/") {
     return <Navigate to="/dashboard" />;
   }

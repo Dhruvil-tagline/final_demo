@@ -6,12 +6,14 @@ import { studentResultHeader } from "../../utils/staticObj";
 const StudentResult = () => {
   const { state } = useLocation();
   const user = useSelector((state) => state.auth);
+
   const tableData = state?.Result.map((res, index) => ({
     Index: index + 1,
     Subject: res.subjectName,
     Score: res.score,
     Rank: res.rank,
   }));
+
   return (
     <div
       style={{

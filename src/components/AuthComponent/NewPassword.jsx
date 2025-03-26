@@ -14,9 +14,11 @@ const NewPassword = () => {
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState({password:'', confirmPassword:''});
+  const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
+
   const [searchParams] = useSearchParams();
   let token = searchParams.get("token");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,6 +33,7 @@ const NewPassword = () => {
     };
     fetchData();
   }, [token]);
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -63,6 +66,7 @@ const NewPassword = () => {
       Object.values(error).every((val) => !val) && fetchData();
     }
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });

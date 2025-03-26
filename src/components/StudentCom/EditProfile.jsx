@@ -9,12 +9,13 @@ import validate from "../../utils/validate";
 import "./studCss/student.css";
 
 const EditProfile = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [name, setName] = useState("");
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.auth);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
 
   const handleChange = (e) => {
     setName(e.target.value);

@@ -7,7 +7,6 @@ const TeacherDashboard = () => {
 
   return (
     <div style={{ padding: "0px 20px" }}>
- 
       <div
         style={{
           display: "flex",

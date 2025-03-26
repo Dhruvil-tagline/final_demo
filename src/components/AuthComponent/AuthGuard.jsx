@@ -1,5 +1,5 @@
-import { getCookie } from "../../utils/getCookie";
 import { Navigate } from "react-router-dom";
+import { getCookie } from "../../utils/getCookie";
 
 const AuthGuard = ({ children }) => {
   const token = getCookie("authToken");

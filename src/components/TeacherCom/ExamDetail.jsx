@@ -49,9 +49,6 @@ const ExamDetail = () => {
   }, [id, token]);
 
   const tableData = useMemo(() => {
-    if (!examData?.questions.length) {
-      return [];
-    }
     return examData?.questions?.map((q, index) => ({
       Index: index + 1,
       Question: q?.question,

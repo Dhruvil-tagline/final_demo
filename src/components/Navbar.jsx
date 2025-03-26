@@ -11,11 +11,13 @@ import { getCookie } from "../utils/getCookie";
 import { studentNavObj, teacherNavObj } from "../utils/staticObj";
 
 const Navbar = () => {
-  const [openNav, setOpenNav] = useState(false);
-  const user = getCookie("authUser");
-  let navObj = user?.role === "teacher" ? teacherNavObj : studentNavObj;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [openNav, setOpenNav] = useState(false);
+
+  const user = getCookie("authUser");
+  let navObj = user?.role === "teacher" ? teacherNavObj : studentNavObj;
+
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
     document.cookie = "authToken=; path=/; max-age=0";
@@ -23,10 +25,12 @@ const Navbar = () => {
     toast.success("Logout Successfully");
     navigate("/login");
   };
+
   const navClass = classNames("mobile", { mobileView: openNav });
+
   return (
     <div>
-      <div className="navbar" >
+      <div className="navbar">
         <div className="logoDiv">
           <div className="logoAndMenu">
             <div className="logo">
@@ -58,8 +62,8 @@ const Navbar = () => {
             </div>
           </nav>
         </div>
-        <div className={navClass} >
-        <p> Welcome {user?.role}</p>
+        <div className={navClass}>
+          <p> Welcome {user?.role}</p>
           <ButtonCom onClick={handleLogout}>Logout</ButtonCom>
         </div>
       </div>

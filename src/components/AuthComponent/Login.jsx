@@ -10,8 +10,9 @@ import validate from "../../utils/validate";
 import "./AuthCss/SignUp.css";
 
 const Login = () => {
-  const [user, setUser] = useState(userObj);
   const dispatch = useDispatch();
+
+  const [user, setUser] = useState(userObj);
   const { loading } = useSelector((state) => state.auth);
   const [error, setError] = useState(errorObj);
   const navigate = useNavigate();

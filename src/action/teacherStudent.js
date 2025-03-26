@@ -12,10 +12,13 @@ export const allStudentList = (apiEndpoint, token) => async (dispatch) => {
     } else {
       dispatch({
         type: "FETCH_TEACHER_STUDENT_FAILURE",
-        payload: response?.message || 'Error occurred',
+        payload: response?.message || "Error occurred",
       });
     }
   } catch (error) {
-    dispatch({ type: "FETCH_TEACHER_STUDENT_FAILURE", payload: error.message || 'Error occurred' });
+    dispatch({
+      type: "FETCH_TEACHER_STUDENT_FAILURE",
+      payload: error.message || "Error occurred",
+    });
   }
 };

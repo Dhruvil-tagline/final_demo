@@ -13,11 +13,13 @@ const ForgetPassword = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
   const handleChange = (e) => {
     const value = e.target.value;
     setEmail(value);
     setError(validate(e.target.name, value));
   };
+
   const searchUser = async () => {
     try {
       setLoading(true);
@@ -32,6 +34,7 @@ const ForgetPassword = () => {
       setLoading(false);
     }
   };
+
   const handleSubmit = (e) => {
     setError("");
     e.preventDefault();
@@ -47,10 +50,7 @@ const ForgetPassword = () => {
     <div className="authContainer">
       {loading && <Loader />}
       <div className="authInnerDiv">
-        <form
-          onSubmit={handleSubmit}
-          className="form"
-        >
+        <form onSubmit={handleSubmit} className="form">
           <h1 className="authHeading">Find Your Account</h1> <br />
           <p>Please enter your email address to search for your account.</p>
           <InputCom

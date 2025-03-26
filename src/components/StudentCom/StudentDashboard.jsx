@@ -64,7 +64,13 @@ const StudentDashboard = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1 style={{ textAlign: "center", color: "rgb(18, 219, 206)", paddingBottom:"20px" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          color: "rgb(18, 219, 206)",
+          paddingBottom: "20px",
+        }}
+      >
         Start your Exam & View Results
       </h1>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>

@@ -5,6 +5,7 @@ import TeacherDashboard from "../TeacherCom/TeacherDashboard";
 
 const Dashboard = () => {
   const user = getCookie("authUser");
+
   if (user?.role === "teacher") {
     return <TeacherDashboard />;
   } else if (user?.role === "student") {

@@ -11,17 +11,19 @@ import { examFormHeader } from "../../utils/staticObj";
 import "./studCss/student.css";
 
 const ExamForm = () => {
-  const { state } = useLocation();
   const { token } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { state } = useLocation();
   const navigate = useNavigate();
-  const { id, subjectName, notes } = state;
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState(null);
   const [exam, setExam] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { id, subjectName, notes } = state;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,6 +49,7 @@ const ExamForm = () => {
     };
     fetchData();
   }, [id, token]);
+
   const handleAnswerSelect = (questionId, option) => {
     let x = selectedAnswers.map((val) =>
       val?.question === questionId
@@ -55,20 +58,25 @@ const ExamForm = () => {
     );
     setSelectedAnswers(x);
   };
+
   const handleNext = () => {
     setCurrentQuestionIndex((prev) => prev + 1);
   };
+
   const handlePrev = () => {
     setCurrentQuestionIndex((prev) => prev - 1);
   };
+
   const handleSubmitAndReview = () => {
     setReviewMode(true);
     setIsEditing(true);
   };
+
   const handleEditAnswer = (index) => {
     setCurrentQuestionIndex(index);
     setReviewMode(false);
   };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -89,6 +97,7 @@ const ExamForm = () => {
       setLoading(false);
     }
   };
+
   const tableData = useMemo(() => {
     return exam.map((q, idx) => ({
       Index: idx + 1,
@@ -100,11 +109,25 @@ const ExamForm = () => {
     }));
   }, [exam, selectedAnswers]);
 
-  if(error){
-    return<div style={{display:"flex", flexDirection:"column",gap:"20px", justifyContent:"center", alignItems:"center", background:"black", padding:"20px"}}>
-       <p className="no-data"> Error occurred please refresh the page</p>
-       <ButtonCom onClick={()=> window.location.reload(false)}>Refresh</ButtonCom>
-    </div>
+  if (error) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "black",
+          padding: "20px",
+        }}
+      >
+        <p className="no-data"> Error occurred please refresh the page</p>
+        <ButtonCom onClick={() => window.location.reload(false)}>
+          Refresh
+        </ButtonCom>
+      </div>
+    );
   }
 
   return (

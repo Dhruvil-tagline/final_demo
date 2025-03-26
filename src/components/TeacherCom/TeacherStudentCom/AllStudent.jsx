@@ -15,7 +15,7 @@ const AllStudent = () => {
 
   const [allStudent, setAllStudent] = useState(true);
   const [data, setData] = useState([]);
-  const VerifiedStudent =
+  const verifiedStudent =
     !!allStudentArray?.allStudent.length &&
     allStudentArray?.allStudent.filter((val) => val.status === "Active");
 
@@ -24,9 +24,7 @@ const AllStudent = () => {
   }, [token]);
 
   useEffect(() => {
-    allStudent
-      ? setData(allStudentArray?.allStudent)
-      : setData(VerifiedStudent);
+    setData(allStudent ? allStudentArray?.allStudent : verifiedStudent);
   }, [allStudent, allStudentArray]);
 
   const tableData = useMemo(() => {

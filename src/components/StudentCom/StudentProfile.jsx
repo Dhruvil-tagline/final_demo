@@ -5,13 +5,15 @@ const StudentProfile = () => {
   return (
     <div className="stuContainer">
       <nav className="StudentNavbar">
-        <NavLink style={{padding:"25px"}}
+        <NavLink
+          style={{ padding: "25px" }}
           className={({ isActive }) => (isActive ? "StuActive" : " ")}
           to="/profile/editName"
         >
           Edit Name
         </NavLink>
-        <NavLink style={{padding:"25px"}}
+        <NavLink
+          style={{ padding: "25px" }}
           className={({ isActive }) => (isActive ? "StuActive" : "")}
           to="/profile/resetPassword"
         >

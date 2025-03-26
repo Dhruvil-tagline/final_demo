@@ -10,6 +10,7 @@ import validate from "../utils/validate";
 
 const ResetPassword = () => {
   const { token } = useSelector((state) => state.auth);
+
   const [loading, setLoading] = useState(false);
   const [passwordObj, setPasswordObj] = useState(resetPasswordObj);
   const [error, setError] = useState(resetPasswordErrorObj);
@@ -37,10 +38,10 @@ const ResetPassword = () => {
         errors[key] = validate(key, value);
       }
     });
-    console.log(errors);
     setError(errors);
     return Object.values(errors).every((val) => !val);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validation()) {
@@ -68,6 +69,7 @@ const ResetPassword = () => {
       }
     }
   };
+
   return (
     <div
       style={{
