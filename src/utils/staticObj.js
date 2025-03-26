@@ -1,12 +1,18 @@
 export const errorObj = {
-  emailError: "",
-  passwordError: "",
+  email: null,
+  password: null,
 };
 
 export const userObj = {
   email: "",
   password: "",
 };
+
+export const dropObj = [
+  { text: "Select role", value: "" },
+  { text: "Teacher", value: "teacher" },
+  { text: "Student", value: "student" },
+];
 
 export const teacherNavObj = [
   { to: "dashboard", text: "Dashboard" },
@@ -19,12 +25,6 @@ export const studentNavObj = [
   { to: "profile", text: "Profile" },
 ];
 
-export const sigUpErrorObj = {
-  nameError: "",
-  emailError: "",
-  passwordError: "",
-  roleError: "",
-};
 export const signUpUserObj = {
   name: "",
   email: "",
@@ -66,10 +66,11 @@ export const TOTAL_QUESTIONS = 15;
 
 export const resetPasswordObj = {
   oldPassword: "",
-  Password: "",
-  ConfirmPassword: "",
+  password: "",
+  confirmPassword: "",
 };
 export const resetPasswordErrorObj = {
-  oldPasswordError: "",
-  newPasswordError: "",
+  oldPassword: "",
+  password: "",
+  confirmPassword: "",
 };

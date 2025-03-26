@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ButtonCom from "../../../shared/ButtonCom";
@@ -9,19 +9,24 @@ import { studentTableHeader } from "../../../utils/staticObj";
 const StudentDetails = () => {
   const { id } = useParams();
   const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const [studentData, setStudentData] = useState({});
-  let index = 1;
-  const tableData =
-    studentData?.Result &&
-    studentData?.Result.map((val) => ({
-      Index: index++,
-      Subject: val.subjectName,
-      Score: val.score,
-      Rank: val.rank,
-    }));
+
+  const tableData = useMemo(() => {
+    let index = 1;
+    return (
+      studentData?.Result &&
+      studentData?.Result.map((val) => ({
+        Index: index++,
+        Subject: val.subjectName,
+        Score: val.score,
+        Rank: val.rank,
+      }))
+    );
+  }, [studentData]);
 
   useEffect(() => {
     const fetchStudentDetails = async () => {

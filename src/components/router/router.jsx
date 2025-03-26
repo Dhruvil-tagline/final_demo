@@ -1,25 +1,30 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AuthGuard from "../AuthComponent/AuthGuard";
 import AuthStudent from "../AuthComponent/AuthStudent";
 import AuthTeacher from "../AuthComponent/AuthTeacher";
-import ForgetPassword from "../AuthComponent/ForgetPassword";
-import Login from "../AuthComponent/Login";
-import NewPassword from "../AuthComponent/NewPassword";
 import Protected from "../AuthComponent/Protected";
-import SignUp from "../AuthComponent/SignUp";
-import Dashboard from "../pages/Dashboard";
-import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
-import Profile from "../pages/Profile";
-import ResetPassword from "../ResetPassword";
-import EditProfile from "../StudentCom/EditProfile";
-import ExamForm from "../StudentCom/ExamForm";
-import StudentResult from "../StudentCom/StudentResult";
-import ExamDetail from "../TeacherCom/ExamDetail";
-import ExamList from "../TeacherCom/ExamList";
-import TeacherForm from "../TeacherCom/TeacherForm";
-import AllStudent from "../TeacherCom/TeacherStudentCom/AllStudent";
-import StudentDetails from "../TeacherCom/TeacherStudentCom/StudentDetails";
+const Login = lazy(() => import("../AuthComponent/Login"));
+const NewPassword = lazy(() => import("../AuthComponent/NewPassword"));
+const SignUp = lazy(() => import("../AuthComponent/SignUp"));
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Home = lazy(() => import("../pages/Home"));
+const Profile = lazy(() => import("../pages/Profile"));
+const ResetPassword = lazy(() => import("../ResetPassword"));
+const EditProfile = lazy(() => import("../StudentCom/EditProfile"));
+const ExamForm = lazy(() => import("../StudentCom/ExamForm"));
+const StudentResult = lazy(() => import("../StudentCom/StudentResult"));
+const ExamDetail = lazy(() => import("../TeacherCom/ExamDetail"));
+const ExamList = lazy(() => import("../TeacherCom/ExamList"));
+const TeacherForm = lazy(() => import("../TeacherCom/TeacherForm"));
+const AllStudent = lazy(
+  () => import("../TeacherCom/TeacherStudentCom/AllStudent"),
+);
+const StudentDetails = lazy(
+  () => import("../TeacherCom/TeacherStudentCom/StudentDetails"),
+);
+const ForgetPassword = lazy(() => import("../AuthComponent/ForgetPassword"));
 
 const router = createBrowserRouter(
   [

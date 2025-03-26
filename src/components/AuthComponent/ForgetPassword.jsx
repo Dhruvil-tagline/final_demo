@@ -1,29 +1,27 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { validateEmail } from "../../utils/validation";
-import "./AuthCss/SignUp.css";
-import InputCom from "../../shared/InputCom";
+import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
-import { postRequest } from "../../utils/api";
+import InputCom from "../../shared/InputCom";
 import Loader from "../../shared/Loader";
+import { postRequest } from "../../utils/api";
+import validate from "../../utils/validate";
+import "./AuthCss/SignUp.css";
 
 const ForgetPassword = () => {
-  const [search, setSearch] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const handleChange = (e) => {
     const value = e.target.value;
-    setSearch(value);
-    setError(validateEmail(value));
+    setEmail(value);
+    setError(validate(e.target.name, value));
   };
   const searchUser = async () => {
     try {
       setLoading(true);
-      let response = await postRequest("users/ForgotPassword", {
-        email: search,
-      });
+      let response = await postRequest("users/ForgotPassword", { email });
       if (response.statusCode === 200) {
         toast.success(response?.message);
         navigate("/login");
@@ -37,7 +35,7 @@ const ForgetPassword = () => {
   const handleSubmit = (e) => {
     setError("");
     e.preventDefault();
-    let emailValidate = validateEmail(search);
+    let emailValidate = validate("email", email);
     if (emailValidate) {
       setError(emailValidate);
     } else {
@@ -51,22 +49,25 @@ const ForgetPassword = () => {
       <div className="authInnerDiv">
         <form
           onSubmit={handleSubmit}
-          onReset={() => {
-            setSearch("");
-            setError("");
-          }}
           className="form"
         >
           <h1 className="authHeading">Find Your Account</h1> <br />
           <p>Please enter your email address to search for your account.</p>
           <InputCom
             type="email"
-            name="search"
-            value={search}
+            name="email"
+            value={email}
             onChange={handleChange}
           />
           <span className="error">{error}</span>
-          <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              marginTop: "20px",
+              flexWrap: "wrap",
+            }}
+          >
             <ButtonCom type="submit">Search</ButtonCom>
             <ButtonCom type="button" onClick={() => navigate(-1)}>
               Back

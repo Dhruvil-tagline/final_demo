@@ -6,39 +6,28 @@ import DropDown from "../../shared/DropDown";
 import InputCom from "../../shared/InputCom";
 import Loader from "../../shared/Loader";
 import { postRequest } from "../../utils/api";
-import { signUpUserObj, sigUpErrorObj } from "../../utils/staticObj";
-import {
-  dropDownValidate,
-  validateEmail,
-  validateName,
-  validatePassword,
-} from "../../utils/validation";
+import { dropObj, signUpUserObj } from "../../utils/staticObj";
+import validate from "../../utils/validate";
 import "./AuthCss/SignUp.css";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(signUpUserObj);
   const navigate = useNavigate();
-  const [error, setError] = useState(sigUpErrorObj);
+  const [error, setError] = useState(signUpUserObj);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    let newErrors = { ...error };
-    if (name === "name") newErrors.nameError = validateName(value);
-    if (name === "email") newErrors.emailError = validateEmail(value);
-    if (name === "password") newErrors.passwordError = validatePassword(value);
-    if (name === "role") newErrors.roleError = dropDownValidate(value, "Role");
-
-    setError(newErrors);
+    const errors = validate(name, value);
+    setError({ ...error, [name]: errors });
   };
-  const validate = () => {
-    const errors = {
-      nameError: validateName(user.name),
-      emailError: validateEmail(user.email),
-      passwordError: validatePassword(user.password),
-      roleError: dropDownValidate(user.role, "Role"),
-    };
+
+  const validation = () => {
+    let errors = {};
+    Object.entries(user).forEach(([key, value]) => {
+      errors[key] = validate(key, value);
+    });
     setError(errors);
     return Object.values(errors).every((val) => !val);
   };
@@ -61,14 +50,9 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(sigUpErrorObj);
-    validate() && addUser();
+    validation() && addUser();
   };
-  const dropObj = [
-    { text: "Select role", value: "" },
-    { text: "Teacher", value: "teacher" },
-    { text: "Student", value: "student" },
-  ];
+
   return (
     <div className="authContainer">
       {loading && <Loader />}
@@ -76,40 +60,40 @@ const SignUp = () => {
         <form onSubmit={handleSubmit} className="form">
           <h1 className="authHeading">SignUp </h1>
           <label htmlFor="name">Name:</label>
-          <span className="error">{error.nameError}</span> <br />
+          <span className="error">{error?.name}</span> <br />
           <InputCom
             type="text"
             id="name"
             name="name"
-            value={user.name}
-            onChange={(e) => handleChange(e)}
+            value={user?.name}
+            onChange={handleChange}
           />
           <br />
           <label htmlFor="email">Email:</label>
-          <span className="error">{error.emailError}</span> <br />
+          <span className="error">{error?.email}</span> <br />
           <InputCom
             type="email"
-            value={user.email}
-            onChange={(e) => handleChange(e)}
+            value={user?.email}
+            onChange={handleChange}
             id="email"
             name="email"
           />
           <br />
           <label htmlFor="password">Password:</label>
-          <span className="error">{error.passwordError}</span> <br />
+          <span className="error">{error?.password}</span> <br />
           <InputCom
             type="password"
-            value={user.password}
-            onChange={(e) => handleChange(e)}
+            value={user?.password}
+            onChange={handleChange}
             id="password"
             name="password"
           />
           <br />
           <label htmlFor="role">Role:</label>
-          <span className="error">{error.roleError}</span> <br />
+          <span className="error">{error?.role}</span> <br />
           <DropDown
-            value={user.role}
-            onChange={(e) => handleChange(e)}
+            value={user?.role}
+            onChange={handleChange}
             id="role"
             name="role"
             dropObj={dropObj}
@@ -118,12 +102,16 @@ const SignUp = () => {
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <ButtonCom type="submit">Sign Up</ButtonCom>
           </div>
-          <p>
-            Already have an account? -
-            <Link to="/login" style={{ textDecoration: "underline" }}>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <p>Already have an account?</p>
+            <Link
+              to="/login"
+              style={{ textDecoration: "underline" }}
+              state={{ padding: "0px" }}
+            >
               Log in
             </Link>
-          </p>
+          </div>
         </form>
       </div>
     </div>

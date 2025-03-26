@@ -11,7 +11,7 @@ import {
   teacherErrorObj,
   TOTAL_QUESTIONS,
 } from "../../utils/staticObj";
-import { validateEmpty } from "../../utils/validation";
+import validate from "../../utils/validate";
 
 const TeacherForm = () => {
   const { token } = useSelector((state) => state.auth);
@@ -19,6 +19,7 @@ const TeacherForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+
   const [currentQuestion, setCurrentQuestion] = useState(state?.currentQ || 0);
   const [allQuestionError, setAllQuestionError] = useState(
     Array(15).fill(false),
@@ -43,31 +44,27 @@ const TeacherForm = () => {
 
   const isDuplicateQuestion = (index, value) => {
     return examData.questions.some(
-      (q, i) => i !== index && q.question.trim() === value.trim(),
+      (q, i) => i !== index && q?.question?.trim() === value?.trim(),
     );
   };
 
-  const handleInputChange = (index, field, value) => {
+  const handleInputChange = (index, e) => {
+    const value = e.target.value;
     const updatedQuestions = [...examData.questions];
-    updatedQuestions[index] = { ...updatedQuestions[index], [field]: value };
+    updatedQuestions[index] = {
+      ...updatedQuestions[index],
+      [e.target.name]: value,
+    };
     setExamData({ ...examData, questions: updatedQuestions });
-
-    if (field === "question") {
-      if (!value.trim()) {
-        setQuestionsError((prev) => ({
-          ...prev,
-          questionError: "Question cannot be empty",
-        }));
-      } else if (isDuplicateQuestion(index, value)) {
-        setQuestionsError((prev) => ({
-          ...prev,
-          questionError: "Duplicate question not allowed",
-        }));
-      } else {
-        setQuestionsError((prev) => ({ ...prev, questionError: "" }));
-      }
+    let error = null;
+    if (!value.trim()) {
+      error = "Question cannot be empty";
+    } else if (isDuplicateQuestion(index, value)) {
+      error = "Duplicate question not allowed";
     }
+    setQuestionsError({ ...questionsError, questionError: error });
   };
+
   const handleQueValidate = (index) => {
     const errors = {};
     errors.optionsError = "";
@@ -80,10 +77,7 @@ const TeacherForm = () => {
     } else {
       errors.questionError = "";
     }
-    errors.answerError = validateEmpty(
-      updatedQuestions[index]?.answer,
-      "Answer",
-    );
+    errors.answerError = validate("Answer", updatedQuestions[index]?.answer);
     if (questionsError.optionsError) {
       return false;
     }
@@ -117,9 +111,6 @@ const TeacherForm = () => {
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updatedQuestions = [...examData.questions];
     updatedQuestions[qIndex].options[optIndex] = value;
-    const areAllOptionsFilled = updatedQuestions[qIndex].options.every(
-      (opt) => opt.trim() !== "",
-    );
     let uniqueOpt = updatedQuestions[qIndex].options.every(
       (val, index, arr) => {
         if (!val) {
@@ -128,6 +119,8 @@ const TeacherForm = () => {
         if (val) {
           return arr.every((val2, idx) => {
             if (idx == index) {
+              return true;
+            } else if (!val2) {
               return true;
             } else {
               return val2.trim() !== val.trim();
@@ -138,17 +131,13 @@ const TeacherForm = () => {
     );
 
     if (!uniqueOpt) {
-      setQuestionsError((prev) => ({
-        ...prev,
+      setQuestionsError({
+        ...questionsError,
         optionsError: "Same option not allowed",
-      }));
-    } else if (areAllOptionsFilled) {
-      setQuestionsError((prev) => ({
-        ...prev,
-        optionsError: "",
-      }));
+      });
+    } else {
+      setQuestionsError({ ...questionsError, optionsError: "" });
     }
-   
     updatedQuestions[qIndex].answer = "";
     setExamData({ ...examData, questions: updatedQuestions });
   };
@@ -156,41 +145,41 @@ const TeacherForm = () => {
   const handleSubjectChange = (e) => {
     const value = e.target.value;
     setExamData({ ...examData, subjectName: value });
-    setError((prev) => ({
-      ...prev,
-      subjectError: validateEmpty(value, "Subject name"),
-    }));
+    setError({ ...error, subjectError: validate("Subject name", value) });
   };
 
   const handleNoteChange = (index, value) => {
     const updatedNotes = [...examData.notes];
     updatedNotes[index] = value;
-    const areNotesFilled = updatedNotes.every((note) => note.trim() !== "");
-
-    setError((prev) => ({
-      ...prev,
-      noteError: areNotesFilled ? "" : "Notes are required",
-    }));
-
+    let notesError = null;
+    if (updatedNotes.every((note) => note.trim() !== "")) {
+      notesError = "Notes is required";
+    }
+    if (updatedNotes[0].trim() === updatedNotes[0].trim()) {
+      notesError = "Notes can not be same";
+    }
+    setError({ ...error, noteError: notesError });
     setExamData({ ...examData, notes: updatedNotes });
   };
 
   const handleAnswerChange = (index, value) => {
     const updatedQuestions = [...examData.questions];
     updatedQuestions[index].answer = value;
-    setQuestionsError((prev) => ({
-      ...prev,
+    setQuestionsError({
+      ...questionsError,
       answerError: value ? "" : "Answer is required",
-    }));
+    });
     setExamData({ ...examData, questions: updatedQuestions });
   };
 
   const handleValidate = useCallback(
     (result) => {
       const errors = { ...teacherErrorObj };
-      errors.subjectError = validateEmpty(examData.subjectName, "Subject name");
+      errors.subjectError = validate("Subject name", examData.subjectName);
       if (!examData.notes.every((note) => note.trim() !== "")) {
         errors.noteError = "Notes are required";
+      } else if (examData.notes[0].trim() === examData.notes[1].trim()) {
+        errors.noteError = "Notes can not be same";
       }
       if (result) {
         !result.every((val) => val) &&
@@ -320,13 +309,7 @@ const TeacherForm = () => {
                     placeholder="Enter question"
                     id="question"
                     value={examData?.questions[currentQuestion]?.question}
-                    onChange={(e) =>
-                      handleInputChange(
-                        currentQuestion,
-                        "question",
-                        e.target.value,
-                      )
-                    }
+                    onChange={(e) => handleInputChange(currentQuestion, e)}
                   />
                 </div>
                 {questionsError.optionsError && (

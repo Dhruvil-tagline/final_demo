@@ -6,7 +6,7 @@ import InputCom from "../shared/InputCom";
 import Loader from "../shared/Loader";
 import { postRequest } from "../utils/api";
 import { resetPasswordErrorObj, resetPasswordObj } from "../utils/staticObj";
-import { validateEmpty, validatePassword } from "../utils/validation";
+import validate from "../utils/validate";
 
 const ResetPassword = () => {
   const { token } = useSelector((state) => state.auth);
@@ -14,47 +14,49 @@ const ResetPassword = () => {
   const [passwordObj, setPasswordObj] = useState(resetPasswordObj);
   const [error, setError] = useState(resetPasswordErrorObj);
 
-  const handleInput = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setPasswordObj((prevState) => ({ ...prevState, [name]: value }));
-    let newErrors = { ...error };
-    if (name === "oldPassword")
-      newErrors.oldPasswordError = validateEmpty(value, "Old Password");
-    if (name === "Password") {
-      newErrors.newPasswordError = validatePassword(
-        value,
-        passwordObj.ConfirmPassword,
-      );
+    setPasswordObj({ ...passwordObj, [name]: value });
+    const errors = {};
+    if (name === "oldPassword") errors[name] = validate("password", value);
+    else if (name === "password") {
+      errors[name] = validate(name, value);
+    } else {
+      errors[name] = validate(name, value, passwordObj?.password);
     }
-    if (name === "ConfirmPassword") {
-      newErrors.newPasswordError = validatePassword(
-        passwordObj.Password,
-        value,
-      );
-    }
-    setError(newErrors);
+    setError(errors);
   };
 
-  const validate = () => {
-    const errors = {
-      oldPasswordError: validateEmpty(passwordObj?.oldPassword, "Old Password"),
-      newPasswordError: validatePassword(
-        passwordObj?.Password,
-        passwordObj.ConfirmPassword,
-      ),
-    };
-
+  const validation = () => {
+    const errors = {};
+    Object.entries(passwordObj).forEach(([key, value]) => {
+      console.log(key);
+      if (key === "confirmPassword") {
+        errors[key] = validate(key, value, passwordObj?.password);
+      } else {
+        errors[key] = validate(key, value);
+      }
+    });
+    console.log(errors);
     setError(errors);
     return Object.values(errors).every((val) => !val);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (validation()) {
       try {
         setLoading(true);
-        let response = await postRequest("users/ResetPassword", passwordObj, {
-          "access-token": token,
-        });
+        let response = await postRequest(
+          "users/ResetPassword",
+          {
+            oldPassword: passwordObj.oldPassword,
+            Password: passwordObj.password,
+            ConfirmPassword: passwordObj.confirmPassword,
+          },
+          {
+            "access-token": token,
+          },
+        );
         if (response.statusCode === 200) {
           toast.success("password reset successfully.");
           setPasswordObj(resetPasswordObj);
@@ -96,33 +98,34 @@ const ResetPassword = () => {
           </h1>
           <br />
           <label htmlFor="oldPassword">Old Password:</label>
-          <span style={{ color: "red" }}>{error.oldPasswordError}</span>
+          <span style={{ color: "red" }}>{error.oldPassword}</span>
           <InputCom
             type="password"
             placeholder="Old password..."
             id="oldPassword"
             name="oldPassword"
             value={passwordObj.oldPassword}
-            onChange={handleInput}
+            onChange={handleChange}
           />
           <label htmlFor="newPassword">New Password:</label>
-          <span style={{ color: "red" }}>{error.newPasswordError}</span>
+          <span style={{ color: "red" }}>{error.password}</span>
           <InputCom
             type="password"
             placeholder="New password..."
             id="newPassword"
-            name="Password"
-            value={passwordObj.Password}
-            onChange={handleInput}
+            name="password"
+            value={passwordObj.password}
+            onChange={handleChange}
           />
           <label htmlFor="confirmPassword">Confirm Password:</label>
+          <span style={{ color: "red" }}>{error.confirmPassword}</span>
           <InputCom
             type="password"
             placeholder="Confirm password..."
             id="confirmPassword"
-            name="ConfirmPassword"
-            value={passwordObj.ConfirmPassword}
-            onChange={handleInput}
+            name="confirmPassword"
+            value={passwordObj.confirmPassword}
+            onChange={handleChange}
           />
           <ButtonCom type="submit">Submit</ButtonCom>
         </form>

@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { putRequest } from "../../utils/api";
-import { validateName } from "../../utils/validation";
-import InputCom from "../../shared/InputCom";
-import ButtonCom from "../../shared/ButtonCom";
-import "./studCss/student.css";
-import Loader from "../../shared/Loader";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import ButtonCom from "../../shared/ButtonCom";
+import InputCom from "../../shared/InputCom";
+import Loader from "../../shared/Loader";
+import { putRequest } from "../../utils/api";
+import validate from "../../utils/validate";
+import "./studCss/student.css";
 
 const EditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [text, setText] = useState("");
+  const [name, setName] = useState("");
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
-    setText(e.target.value);
-    setError(validateName(e.target.value));
+    setName(e.target.value);
+    setError(validate(e.target.name, e.target.value));
     if (e.target.value.trim() === user?.user?.name.trim()) {
       setError("Updated name is same as actual name");
       return;
@@ -27,6 +27,11 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let value = validate("name", name);
+    if (value) {
+      setError(value);
+      return;
+    }
     if (error) {
       return;
     }
@@ -34,18 +39,18 @@ const EditProfile = () => {
       setLoading(true);
       const response = await putRequest(
         "student/studentProfile",
-        { name: text },
+        { name },
         { "access-token": token },
       );
       if (response.statusCode === 200) {
         toast.success("Name updated Successfully");
-        dispatch({ type: "CHANGE_NAME", payload: text });
+        dispatch({ type: "CHANGE_NAME", payload: name });
       } else {
         toast.error(response?.message || "Error occurred");
       }
     } finally {
       setLoading(false);
-      setText("");
+      setName("");
     }
   };
 
@@ -78,10 +83,10 @@ const EditProfile = () => {
         <p>Change Name</p>
         <span className="error">{error}</span>
         <InputCom
-          type="text"
+          type="name"
           name="name"
           id="name"
-          value={text}
+          value={name}
           onChange={handleChange}
           placeholder="Enter your name..."
         />

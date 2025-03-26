@@ -64,21 +64,9 @@ const StudentDashboard = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "30px",
-          color: "rgb(18, 219, 206)",
-          marginBottom: "20px",
-          textShadow: "12px 12px  4px black",
-        }}
-      >
-        <h1>Welcome {user?.user?.name}</h1>
-        <h1>Role: {user?.user?.role}</h1>
-      </div>
+      <h1 style={{ textAlign: "center", color: "rgb(18, 219, 206)", paddingBottom:"20px" }}>
+        Start your Exam & View Results
+      </h1>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         <Table
           tableData={tableData}

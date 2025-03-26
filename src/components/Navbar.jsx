@@ -26,7 +26,7 @@ const Navbar = () => {
   const navClass = classNames("mobile", { mobileView: openNav });
   return (
     <div>
-      <div className="navbar">
+      <div className="navbar" >
         <div className="logoDiv">
           <div className="logoAndMenu">
             <div className="logo">
@@ -58,7 +58,8 @@ const Navbar = () => {
             </div>
           </nav>
         </div>
-        <div className={navClass}>
+        <div className={navClass} >
+        <p> Welcome {user?.role}</p>
           <ButtonCom onClick={handleLogout}>Logout</ButtonCom>
         </div>
       </div>

@@ -5,16 +5,16 @@ import ButtonCom from "../../shared/ButtonCom";
 import InputCom from "../../shared/InputCom";
 import Loader from "../../shared/Loader";
 import { getRequest, postRequest } from "../../utils/api";
-import { validateEmpty, validatePassword } from "../../utils/validation";
+import validate from "../../utils/validate";
 import "./AuthCss/SignUp.css";
 
 const NewPassword = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
-    Password: "",
-    ConfirmPassword: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({password:'', confirmPassword:''});
   const [searchParams] = useSearchParams();
   let token = searchParams.get("token");
   useEffect(() => {
@@ -24,7 +24,6 @@ const NewPassword = () => {
         let response = await getRequest("users/newPassword", token);
         if (response.statusCode !== 200) {
           toast.error(response?.message);
-          setData({ Password: "", ConfirmPassword: "" });
         }
       } finally {
         setLoading(false);
@@ -37,7 +36,7 @@ const NewPassword = () => {
       setLoading(true);
       let response = await postRequest(
         `users/ForgogtPassword/Verify?token=${token}`,
-        data,
+        { Password: "", ConfirmPassword: "" },
       );
       if (response.statusCode === 200) {
         toast.success(response?.message);
@@ -50,32 +49,32 @@ const NewPassword = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const passwordValidation = validatePassword(
-      data.Password,
-      data.ConfirmPassword,
-    );
-    if (passwordValidation) {
-      return;
+    const error = {};
+    Object.entries(data).forEach(([key, value]) => {
+      error[key] = validate(key, value);
+    });
+    setErrors(error);
+    if (data.password !== data.confirmPassword) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: "password is not matching",
+      }));
     } else {
-      fetchData();
+      Object.values(error).every((val) => !val) && fetchData();
     }
   };
-  const handleChangePassword = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({
-      ...prev,
-      passwordError: validatePassword(e.target.value, data.ConfirmPassword),
-    }));
+    setData({ ...data, [name]: value });
+    let error = {};
+    if (name === "confirmPassword") {
+      error = validate(name, value, data.password);
+    } else {
+      error = validate(name, value);
+    }
+    setErrors({ ...errors, [name]: error });
   };
-  const handleChangeConfirmPassword = (e) => {
-    const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
-    setErrors(() => ({
-      passwordError: validatePassword(data.Password, e.target.value),
-      confirmPasswordError: validateEmpty(e.target.value, "confirmPassword"),
-    }));
-  };
+
   return (
     <div className="authContainer">
       {loading && <Loader />}
@@ -89,19 +88,19 @@ const NewPassword = () => {
           <InputCom
             type="password"
             placeholder="New password..."
-            name="Password"
-            value={data.Password}
-            onChange={handleChangePassword}
+            name="password"
+            value={data.password}
+            onChange={handleChange}
           />
-          <span className="error">{errors.passwordError}</span>
+          <span className="error">{errors.password}</span>
           <InputCom
             type="password"
             placeholder="Confirm password..."
-            name="ConfirmPassword"
-            value={data.ConfirmPassword}
-            onChange={handleChangeConfirmPassword}
+            name="confirmPassword"
+            value={data.confirmPassword}
+            onChange={handleChange}
           />
-          <span className="error">{errors.confirmPasswordError}</span>
+          <span className="error">{errors.confirmPassword}</span>
           <div>
             <ButtonCom type="submit">Submit</ButtonCom>
           </div>

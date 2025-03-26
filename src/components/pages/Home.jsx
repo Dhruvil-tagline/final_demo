@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import Footer from "../Footer";
 import Navbar from "../Navbar";
 
 const Home = () => {
@@ -7,11 +8,18 @@ const Home = () => {
     return <Navigate to="/dashboard" />;
   }
   return (
-    <div style={{ minHeight: "100vh", height: "100%" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Navbar />
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px", flex: "1" }}>
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 };

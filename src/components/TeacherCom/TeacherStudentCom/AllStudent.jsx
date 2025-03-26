@@ -8,22 +8,31 @@ import { allStudentHeader } from "../../../utils/staticObj";
 import "../TeacherComCss/slider.css";
 
 const AllStudent = () => {
+  const allStudentArray = useSelector((state) => state.teacherStudent);
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   const [allStudent, setAllStudent] = useState(true);
-  const allStudentArray = useSelector((state) => state.teacherStudent);
+  const [data, setData] = useState([]);
+  const VerifiedStudent =
+    !!allStudentArray?.allStudent.length &&
+    allStudentArray?.allStudent.filter((val) => val.status === "Active");
+
   useEffect(() => {
-    let apiEndpoint = allStudent
-      ? "dashboard/Teachers"
-      : "dashboard/Teachers/StudentForExam";
-    dispatch(allStudentList(apiEndpoint, token));
-  }, [allStudent, token]);
+    dispatch(allStudentList("dashboard/Teachers", token));
+  }, [token]);
+
+  useEffect(() => {
+    allStudent
+      ? setData(allStudentArray?.allStudent)
+      : setData(VerifiedStudent);
+  }, [allStudent, allStudentArray]);
 
   const tableData = useMemo(() => {
     return (
-      !!allStudentArray?.allStudent &&
-      allStudentArray?.allStudent.map((val, index) => ({
+      !!data.length &&
+      data.map((val, index) => ({
         Index: index,
         Name: val.name,
         Email: val.email,
@@ -38,7 +47,7 @@ const AllStudent = () => {
         ),
       }))
     );
-  }, [allStudentArray?.allStudent]);
+  }, [data]);
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}

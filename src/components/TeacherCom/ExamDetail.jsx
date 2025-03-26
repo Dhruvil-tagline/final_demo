@@ -17,27 +17,17 @@ const ExamDetail = () => {
   const [examData, setExamData] = useState({
     subjectName: initialSubject,
     notes: initialNotes,
-    questions: Array(15)
-      .fill()
-      .map(() => ({
-        question: "",
-        answer: "",
-        options: ["", "", "", ""],
-      })),
+    questions: [],
   });
-  const [questions, setQuestions] = useState(
-    Array(15)
-      .fill()
-      .map(() => ({ question: "", answer: "", options: ["", "", "", ""] })),
-  );
+  const [questions, setQuestions] = useState([]);
 
   const examListObj = useSelector((state) => state?.editExam);
   useEffect(() => {
-    if (examListObj?.quesArray) {
-      setExamData((prev) => ({
-        ...prev,
+    if (examListObj?.quesArray.length) {
+      setExamData({
+        ...examData,
         questions: examListObj?.quesArray,
-      }));
+      });
       setQuestions(examListObj?.quesArray);
     }
   }, [examListObj]);
@@ -59,6 +49,9 @@ const ExamDetail = () => {
   }, [id, token]);
 
   const tableData = useMemo(() => {
+    if (!examData?.questions.length) {
+      return [];
+    }
     return examData?.questions?.map((q, index) => ({
       Index: index + 1,
       Question: q?.question,
