@@ -122,10 +122,14 @@ const ExamForm = () => {
           padding: "20px",
         }}
       >
-        <p className="no-data"> Error occurred please refresh the page</p>
+        <p className="no-data">
+          {" "}
+          {error || "Error occurred please refresh the page"}
+        </p>
         <ButtonCom onClick={() => window.location.reload(false)}>
           Refresh
         </ButtonCom>
+        <ButtonCom onClick={() => navigate(-1)}>Back</ButtonCom>
       </div>
     );
   }

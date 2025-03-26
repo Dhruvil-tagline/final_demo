@@ -152,10 +152,10 @@ const TeacherForm = () => {
     const updatedNotes = [...examData.notes];
     updatedNotes[index] = value;
     let notesError = null;
-    if (updatedNotes.every((note) => note.trim() !== "")) {
+    if (!updatedNotes.every((note) => note.trim() !== "")) {
       notesError = "Notes is required";
     }
-    if (updatedNotes[0].trim() === updatedNotes[0].trim()) {
+    else if(updatedNotes[0].trim() === updatedNotes[1].trim()) {
       notesError = "Notes can not be same";
     }
     setError({ ...error, noteError: notesError });

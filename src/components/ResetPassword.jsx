@@ -31,7 +31,6 @@ const ResetPassword = () => {
   const validation = () => {
     const errors = {};
     Object.entries(passwordObj).forEach(([key, value]) => {
-      console.log(key);
       if (key === "confirmPassword") {
         errors[key] = validate(key, value, passwordObj?.password);
       } else {

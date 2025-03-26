@@ -14,6 +14,11 @@ const NewPassword = () => {
     password: "",
     confirmPassword: "",
   });
+  const user = {
+    Password: data.password,
+    ConfirmPassword: data.confirmPassword,
+  };
+
   const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
 
   const [searchParams] = useSearchParams();
@@ -37,11 +42,14 @@ const NewPassword = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      let response = await postRequest(
+      const response = await postRequest(
         `users/ForgogtPassword/Verify?token=${token}`,
-        { Password: "", ConfirmPassword: "" },
+        user,
       );
-      if (response.statusCode === 200) {
+      if (response) {
+        console.log(response);
+      }
+      if (response?.statusCode === 200) {
         toast.success(response?.message);
       } else {
         toast.error(response?.message);

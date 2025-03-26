@@ -24,7 +24,11 @@ const AllStudent = () => {
   }, [token]);
 
   useEffect(() => {
-    setData(allStudent ? allStudentArray?.allStudent : verifiedStudent);
+    if (allStudent) {
+      setData(allStudentArray?.allStudent);
+    } else {
+      setData(verifiedStudent);
+    }
   }, [allStudent, allStudentArray]);
 
   const tableData = useMemo(() => {
