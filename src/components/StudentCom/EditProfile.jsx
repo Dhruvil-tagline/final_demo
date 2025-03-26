@@ -67,7 +67,7 @@ const EditProfile = () => {
       }}
     >
       {loading && <Loader />}
-      <h1 className="heading">Edit Profile</h1>
+      <h1 className="heading">Edit Name</h1>
       <div
         style={{
           display: "flex",
@@ -81,8 +81,7 @@ const EditProfile = () => {
       </div>
       <hr className="horizontalRule" />
       <form style={{ marginTop: "10px" }}>
-        <p>Change Name</p>
-        <span className="error">{error}</span>
+       {error && <span className="error">{error}</span>}
         <InputCom
           type="name"
           name="name"

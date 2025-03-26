@@ -1,7 +1,7 @@
 import { regexEmail, regexName } from "./regex";
 
 const validate = (name, value, val2 = "") => {
-  if (!value || !value.trim()) return `${name} is required`;
+  if (!value || !value.trim()) return `${name.charAt(0).toUpperCase()+ name.substr(1)} is required`;
   switch (name) {
     case "name": {
       if (!regexName.test(value)) return "Name is not valid";

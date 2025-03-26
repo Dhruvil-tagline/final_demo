@@ -154,8 +154,7 @@ const TeacherForm = () => {
     let notesError = null;
     if (!updatedNotes.every((note) => note.trim() !== "")) {
       notesError = "Notes is required";
-    }
-    else if(updatedNotes[0].trim() === updatedNotes[1].trim()) {
+    } else if (updatedNotes[0].trim() === updatedNotes[1].trim()) {
       notesError = "Notes can not be same";
     }
     setError({ ...error, noteError: notesError });
@@ -263,7 +262,7 @@ const TeacherForm = () => {
             <label htmlFor="subjectName" style={{ fontSize: "20px" }}>
               Subject Name
             </label>
-            {error.subjectError && (
+            {error?.subjectError && (
               <span style={{ color: "red" }}>{error.subjectError}</span>
             )}
             <InputCom
@@ -283,7 +282,7 @@ const TeacherForm = () => {
             >
               Question
             </label>
-            {error.queError && (
+            {error?.queError && (
               <span style={{ color: "red" }}>{error.queError}</span>
             )}
             <div>
@@ -298,7 +297,7 @@ const TeacherForm = () => {
                   <label htmlFor="question">
                     Question {currentQuestion + 1}
                   </label>
-                  {questionsError.questionError && (
+                  {questionsError?.questionError && (
                     <span style={{ color: "red" }}>
                       {questionsError.questionError}
                     </span>
@@ -312,7 +311,7 @@ const TeacherForm = () => {
                     onChange={(e) => handleInputChange(currentQuestion, e)}
                   />
                 </div>
-                {questionsError.optionsError && (
+                {questionsError?.optionsError && (
                   <span style={{ color: "red" }}>
                     {questionsError.optionsError}
                   </span>
@@ -351,7 +350,7 @@ const TeacherForm = () => {
                     Select Correct Answer:
                     {examData?.questions[currentQuestion]?.answer}
                   </label>
-                  {questionsError.answerError && (
+                  {questionsError?.answerError && (
                     <span style={{ color: "red" }}>
                       {questionsError?.answerError}
                     </span>
@@ -426,7 +425,9 @@ const TeacherForm = () => {
               </div>
             </div>
             <label style={{ fontSize: "20px" }}>Notes</label>
-            <span style={{ color: "red" }}>{error.noteError}</span>
+            {error?.noteError && (
+              <span style={{ color: "red" }}>{error.noteError}</span>
+            )}
             {examData.notes.map((note, index) => (
               <InputCom
                 key={index}

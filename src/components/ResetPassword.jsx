@@ -18,14 +18,13 @@ const ResetPassword = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPasswordObj({ ...passwordObj, [name]: value });
-    const errors = {};
-    if (name === "oldPassword") errors[name] = validate("password", value);
-    else if (name === "password") {
-      errors[name] = validate(name, value);
-    } else {
+    let errors = {};
+    if (name === "confirmPassword") {
       errors[name] = validate(name, value, passwordObj?.password);
+    } else {
+      errors[name] = validate(name, value);
     }
-    setError(errors);
+    setError({ ...error, ...errors });
   };
 
   const validation = () => {
@@ -99,7 +98,7 @@ const ResetPassword = () => {
           </h1>
           <br />
           <label htmlFor="oldPassword">Old Password:</label>
-          <span style={{ color: "red" }}>{error.oldPassword}</span>
+          {error?.oldPassword &&  <span style={{ color: "red" }}>{error.oldPassword}</span>}
           <InputCom
             type="password"
             placeholder="Old password..."
@@ -109,7 +108,7 @@ const ResetPassword = () => {
             onChange={handleChange}
           />
           <label htmlFor="newPassword">New Password:</label>
-          <span style={{ color: "red" }}>{error.password}</span>
+          {error?.password && <span style={{ color: "red" }}>{error.password}</span>}
           <InputCom
             type="password"
             placeholder="New password..."
@@ -119,7 +118,7 @@ const ResetPassword = () => {
             onChange={handleChange}
           />
           <label htmlFor="confirmPassword">Confirm Password:</label>
-          <span style={{ color: "red" }}>{error.confirmPassword}</span>
+          {error?.confirmPassword && <span style={{ color: "red" }}>{error.confirmPassword}</span>}
           <InputCom
             type="password"
             placeholder="Confirm password..."

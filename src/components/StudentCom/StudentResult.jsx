@@ -24,7 +24,7 @@ const StudentResult = () => {
         marginTop: "20px",
       }}
     >
-      <h1 style={{ color: " rgb(18, 219, 206)" }}>
+      <h1 style={{ color: " rgb(18, 219, 206)", padding:"0px 20px" }}>
         Hello" {user?.user?.name || "Unknown"} your Result is
       </h1>
       <p style={{ padding: "10px 0px" }}>
