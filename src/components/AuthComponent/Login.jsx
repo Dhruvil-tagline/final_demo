@@ -8,6 +8,7 @@ import Loader from "../../shared/Loader";
 import { errorObj, userObj } from "../../utils/staticObj";
 import validate from "../../utils/validate";
 import "./AuthCss/SignUp.css";
+import InputPassword from "../../shared/InputPassword";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -53,8 +54,7 @@ const Login = () => {
           <br />
           <label htmlFor="password">Password:</label>
           <span className="error">{error.password}</span> <br />
-          <InputCom
-            type="password"
+          <InputPassword
             value={user.password}
             onChange={(e) => handleChange(e)}
             id="password"

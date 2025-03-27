@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
 import DropDown from "../../shared/DropDown";
 import InputCom from "../../shared/InputCom";
+import InputPassword from "../../shared/InputPassword";
 import Loader from "../../shared/Loader";
 import { postRequest } from "../../utils/api";
 import { dropObj, signUpUserObj } from "../../utils/staticObj";
@@ -81,8 +82,7 @@ const SignUp = () => {
           <br />
           <label htmlFor="password">Password:</label>
           <span className="error">{error?.password}</span> <br />
-          <InputCom
-            type="password"
+          <InputPassword
             value={user?.password}
             onChange={handleChange}
             id="password"

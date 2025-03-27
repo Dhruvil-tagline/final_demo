@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
-import InputCom from "../../shared/InputCom";
+import InputPassword from "../../shared/InputPassword";
 import Loader from "../../shared/Loader";
 import { getRequest, postRequest } from "../../utils/api";
 import validate from "../../utils/validate";
@@ -43,14 +43,12 @@ const NewPassword = () => {
     try {
       setLoading(true);
       const response = await postRequest(
-        `users/ForgogtPassword/Verify?token=${token}`,
+        `users/ForgotPassword/Verify?token=${token}`,
         user,
       );
-      if (response) {
-        console.log(response);
-      }
       if (response?.statusCode === 200) {
         toast.success(response?.message);
+        setData({ password: "", confirmPassword: "" });
       } else {
         toast.error(response?.message);
       }
@@ -97,16 +95,14 @@ const NewPassword = () => {
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         >
           <h1 className="authHeading">Reset password</h1>
-          <InputCom
-            type="password"
+          <InputPassword
             placeholder="New password..."
             name="password"
             value={data.password}
             onChange={handleChange}
           />
           <span className="error">{errors.password}</span>
-          <InputCom
-            type="password"
+          <InputPassword
             placeholder="Confirm password..."
             name="confirmPassword"
             value={data.confirmPassword}

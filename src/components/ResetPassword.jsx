@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ButtonCom from "../shared/ButtonCom";
-import InputCom from "../shared/InputCom";
+import InputPassword from "../shared/InputPassword";
 import Loader from "../shared/Loader";
 import { postRequest } from "../utils/api";
 import { resetPasswordErrorObj, resetPasswordObj } from "../utils/staticObj";
@@ -98,9 +98,10 @@ const ResetPassword = () => {
           </h1>
           <br />
           <label htmlFor="oldPassword">Old Password:</label>
-          {error?.oldPassword &&  <span style={{ color: "red" }}>{error.oldPassword}</span>}
-          <InputCom
-            type="password"
+          {error?.oldPassword && (
+            <span style={{ color: "red" }}>{error.oldPassword}</span>
+          )}
+          <InputPassword
             placeholder="Old password..."
             id="oldPassword"
             name="oldPassword"
@@ -108,9 +109,10 @@ const ResetPassword = () => {
             onChange={handleChange}
           />
           <label htmlFor="newPassword">New Password:</label>
-          {error?.password && <span style={{ color: "red" }}>{error.password}</span>}
-          <InputCom
-            type="password"
+          {error?.password && (
+            <span style={{ color: "red" }}>{error.password}</span>
+          )}
+          <InputPassword
             placeholder="New password..."
             id="newPassword"
             name="password"
@@ -118,9 +120,10 @@ const ResetPassword = () => {
             onChange={handleChange}
           />
           <label htmlFor="confirmPassword">Confirm Password:</label>
-          {error?.confirmPassword && <span style={{ color: "red" }}>{error.confirmPassword}</span>}
-          <InputCom
-            type="password"
+          {error?.confirmPassword && (
+            <span style={{ color: "red" }}>{error.confirmPassword}</span>
+          )}
+          <InputPassword
             placeholder="Confirm password..."
             id="confirmPassword"
             name="confirmPassword"
