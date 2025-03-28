@@ -1,18 +1,20 @@
-import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import Table from "../../shared/Table";
+import { getCookie } from "../../utils/getCookie";
 import { studentResultHeader } from "../../utils/staticObj";
 
 const StudentResult = () => {
   const { state } = useLocation();
-  const user = useSelector((state) => state.auth);
-
-  const tableData = state?.Result.map((res, index) => ({
-    Index: index + 1,
-    Subject: res.subjectName,
-    Score: res.score,
-    Rank: res.rank,
-  }));
+  const user = getCookie("authUser") || {};
+  const tableData = useMemo(() => {
+    return state?.Result.map((res, index) => ({
+      Index: index + 1,
+      Subject: res.subjectName,
+      Score: res.score,
+      Rank: res.rank,
+    }));
+  }, [user, state]);
 
   return (
     <div
@@ -24,12 +26,10 @@ const StudentResult = () => {
         marginTop: "20px",
       }}
     >
-      <h1 style={{ color: " rgb(18, 219, 206)", padding:"0px 20px" }}>
-        Hello" {user?.user?.name || "Unknown"} your Result is
+      <h1 style={{ color: " rgb(18, 219, 206)", padding: "0px 20px" }}>
+        Hello" {user?.name || "Unknown"} your Result is
       </h1>
-      <p style={{ padding: "10px 0px" }}>
-        {user?.user?.email || "Data not found"}
-      </p>
+      <p style={{ padding: "10px 0px" }}>{user?.email || "Data not found"}</p>
       <div style={{ maxWidth: "900px", padding: "10px", width: "100%" }}>
         <Table
           tableData={tableData}

@@ -25,7 +25,10 @@ const ForgetPassword = () => {
   const searchUser = async () => {
     try {
       setLoading(true);
-      let response = await postRequest("users/ForgotPassword", { email, errorMessage:"User not fond" });
+      let response = await postRequest("users/ForgotPassword", {
+        data: { email },
+        errorMessage: "User not fond",
+      });
       if (response.statusCode === 200) {
         toast.success(response?.message);
         navigate("/login");
@@ -53,15 +56,15 @@ const ForgetPassword = () => {
       {loading && <Loader />}
       <div className="authInnerDiv">
         <form onSubmit={handleSubmit} className="form">
-          <h1 className="authHeading">Find Your Account</h1> <br />
-          <p>Please enter your email address to search for your account.</p>
+          <h1 className="authHeading">Forget Password</h1> <br />
+          <span className="error">{error}</span>
           <InputCom
-            type="email"
+            type="text"
+            placeholder="Enter your email..."
             name="email"
             value={email}
             onChange={handleChange}
           />
-          <span className="error">{error}</span>
           <div
             style={{
               display: "flex",

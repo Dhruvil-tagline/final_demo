@@ -1,7 +1,7 @@
 import { useState } from "react";
 import eyesClose from "../assets/eyesClose.png";
 import eyesOpen from "../assets/eyesOpen.png";
-import './css/passwordInput.css'
+import "./css/passwordInput.css";
 
 const InputPassword = ({ name, id, value, onChange, placeholder }) => {
   const [type, setType] = useState("password");

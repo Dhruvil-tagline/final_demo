@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getRequest } from "../../utils/api";
 import ButtonCom from "../../shared/ButtonCom";
 import Table from "../../shared/Table";
+import { getRequest } from "../../utils/api";
+import { getCookie } from "../../utils/getCookie";
 import { studentDashboardHeader } from "../../utils/staticObj";
 
-
 const StudentDashboard = () => {
-  const user = useSelector((state) => state.auth);
+  const token = getCookie("authToken");
   const navigate = useNavigate();
-
   const [exam, setExam] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,7 +18,7 @@ const StudentDashboard = () => {
       try {
         setLoading(true);
         setError(null);
-        let response = await getRequest("student/studentExam", user?.token);
+        let response = await getRequest("student/studentExam", token);
         if (response.statusCode === 200) {
           setExam(response.data);
         } else {
@@ -33,14 +31,14 @@ const StudentDashboard = () => {
       }
     };
     fetchData();
-  }, [user?.token]);
+  }, [token]);
 
   const tableData = useMemo(() => {
     return exam.map((val, index) => ({
       Index: index + 1,
-      Subject: val.subjectName,
-      Email: val.email,
-      Notes: val.notes.join(", "),
+      Subject: val?.subjectName,
+      Email: val?.email,
+      Notes: val?.notes.join(", "),
       Action: val?.Result?.length ? (
         <ButtonCom onClick={() => navigate("/result", { state: val })}>
           View result
@@ -50,9 +48,9 @@ const StudentDashboard = () => {
           onClick={() =>
             navigate("/examForm", {
               state: {
-                id: val._id,
-                subjectName: val.subjectName,
-                notes: val.notes,
+                id: val?._id,
+                subjectName: val?.subjectName,
+                notes: val?.notes,
               },
             })
           }

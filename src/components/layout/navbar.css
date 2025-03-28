@@ -18,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  row-gap: 20px;
   align-items: center;
   color: rgb(18, 219, 206);
 }

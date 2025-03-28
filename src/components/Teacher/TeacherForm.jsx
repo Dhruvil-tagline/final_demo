@@ -6,6 +6,7 @@ import ButtonCom from "../../shared/ButtonCom";
 import InputCom from "../../shared/InputCom";
 import Loader from "../../shared/Loader";
 import RadioCom from "../../shared/RadioCom";
+import { getCookie } from "../../utils/getCookie";
 import {
   questionsErrorObj,
   teacherErrorObj,
@@ -14,15 +15,16 @@ import {
 import validate from "../../utils/validate";
 
 const TeacherForm = () => {
-  const { token } = useSelector((state) => state.auth);
+  const token = getCookie("authToken");
   const exams = useSelector((state) => state.exams);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const { state, pathname } = useLocation();
+  const isUpdateForm = pathname.includes("updateExam");
 
   const [currentQuestion, setCurrentQuestion] = useState(state?.currentQ || 0);
   const [allQuestionError, setAllQuestionError] = useState(
-    Array(15).fill(false),
+    Array(TOTAL_QUESTIONS).fill(false),
   );
   const [questionsError, setQuestionsError] = useState(questionsErrorObj);
   const [error, setError] = useState(teacherErrorObj);
@@ -86,6 +88,9 @@ const TeacherForm = () => {
         errors.optionsError = "4 option is required for each question";
       }
     });
+    if (!uniqueOpt(updatedQuestions[index]?.options)) {
+      errors.optionsError = "Same option not allowed";
+    }
     setQuestionsError(errors);
     if (questionsError.optionsError) {
       return null;
@@ -100,40 +105,45 @@ const TeacherForm = () => {
         arrIndex === index ? true : val,
       );
       setAllQuestionError(allQue);
-      page === "previous" && setCurrentQuestion(currentQuestion - 1);
-      page === "next" && setCurrentQuestion(currentQuestion + 1);
+      page &&
+        setCurrentQuestion(
+          page === "previous" ? currentQuestion - 1 : currentQuestion + 1,
+        );
     } else {
       allQue = allQuestionError.map((val, arrIndex) =>
         arrIndex === index ? false : val,
       );
       setAllQuestionError(allQue);
     }
+    if (allQue) {
+      allQue.every((val) => val) && setError({ ...error, queError: null });
+    }
+
     return allQue;
   };
+
+  function uniqueOpt(optArray) {
+    return optArray.every((val, index, arr) => {
+      if (!val) {
+        return true;
+      }
+      return arr.every((val2, idx) => {
+        if (idx == index) {
+          return true;
+        } else if (!val2) {
+          return true;
+        } else {
+          return val2.trim() !== val.trim();
+        }
+      });
+    });
+  }
 
   const handleOptionChange = (qIndex, optIndex, value) => {
     const updatedQuestions = [...examData.questions];
     updatedQuestions[qIndex].options[optIndex] = value;
-    let uniqueOpt = updatedQuestions[qIndex].options.every(
-      (val, index, arr) => {
-        if (!val) {
-          return true;
-        }
-        if (val) {
-          return arr.every((val2, idx) => {
-            if (idx == index) {
-              return true;
-            } else if (!val2) {
-              return true;
-            } else {
-              return val2.trim() !== val.trim();
-            }
-          });
-        }
-      },
-    );
 
-    if (!uniqueOpt) {
+    if (!uniqueOpt(updatedQuestions[qIndex].options)) {
       setQuestionsError({
         ...questionsError,
         optionsError: "Same option not allowed",
@@ -162,7 +172,6 @@ const TeacherForm = () => {
         notesError = "Notes are required";
       }
       if (updatedNotes[0].trim() === updatedNotes[1].trim()) {
-        console.log("ffff");
         notesError = "Notes can not be same";
       }
       setError({ ...error, noteError: notesError });
@@ -226,7 +235,7 @@ const TeacherForm = () => {
 
   useEffect(() => {
     if (isSubmitting) {
-      if (state?.examId) {
+      if (isUpdateForm) {
         dispatch(updateExam(examData, state?.examId, token, navigate));
       } else {
         dispatch(createExam(examData, token, navigate));
@@ -243,15 +252,37 @@ const TeacherForm = () => {
 
   useEffect(() => {
     if (state?.questions) {
-      setAllQuestionError(Array(15).fill(true));
+      setAllQuestionError(Array(TOTAL_QUESTIONS).fill(true));
     }
-  }, [state?.questions]);
+  }, [isUpdateForm]);
+  if (isUpdateForm) {
+    if (!state?.questions) {
+      return (
+        <div
+          style={{
+            background: "black",
+            color: "red",
+            textAlign: "center",
+            height: "200px",
+          }}
+        >
+          <p style={{ paddingTop: "70px", marginBottom: "10px" }}>
+            {" "}
+            Error occurred
+          </p>
+          <ButtonCom type="button" color="white" onClick={() => navigate(-1)}>
+            Back
+          </ButtonCom>
+        </div>
+      );
+    }
+  }
   return (
     <div>
       <div style={{ paddingTop: "20px" }}>
         {exams?.loading && <Loader />}
         <h1 style={{ textAlign: "center", color: "rgb(18, 219, 206)" }}>
-          {state?.examId ? "Edit Exam" : "Create Exam"}
+          {isUpdateForm ? "Edit Exam" : "Create Exam"}
         </h1>
         <div
           style={{
@@ -359,7 +390,7 @@ const TeacherForm = () => {
                 </div>
                 <div style={{ padding: "20px 0px" }}>
                   <span style={{ marginRight: "10px", fontSize: "1.5rem" }}>
-                     Answer:
+                    Answer:
                   </span>
                   <span style={{ color: "green", fontSize: "1.5rem" }}>
                     {examData?.questions[currentQuestion]?.answer}
@@ -470,7 +501,7 @@ const TeacherForm = () => {
               </ButtonCom>
 
               <ButtonCom type="submit" color="green">
-                {state?.examId ? "Update" : "Submit"}
+                {isUpdateForm ? "Update" : "Submit"}
               </ButtonCom>
             </div>
           </form>

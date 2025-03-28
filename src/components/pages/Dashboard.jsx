@@ -1,11 +1,16 @@
 import { Navigate } from "react-router-dom";
 import { getCookie } from "../../utils/getCookie";
-import TeacherDashboard from '../Teacher/TeacherDashboard';
-import StudentDashboard from '../Student/StudentDashboard';
+import StudentDashboard from "../Student/StudentDashboard";
+import TeacherDashboard from "../Teacher/TeacherDashboard";
 
 const Dashboard = () => {
   const user = getCookie("authUser");
-
+  const token = getCookie("authToken");
+  if (!user || !token) {
+    document.cookie = "authToken=; path=/; max-age=0";
+    document.cookie = "authUser=; path=/; max-age=0";
+    <Navigate to="/login" />;
+  }
   if (user?.role === "teacher") {
     return <TeacherDashboard />;
   } else if (user?.role === "student") {

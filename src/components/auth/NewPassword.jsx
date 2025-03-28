@@ -44,7 +44,7 @@ const NewPassword = () => {
       setLoading(true);
       const response = await postRequest(
         `users/ForgotPassword/Verify?token=${token}`,
-        user,
+        {data:user}
       );
       if (response?.statusCode === 200) {
         toast.success(response?.message);

@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { allStudentList } from "../../redux/action/teacherStudent";
 import ButtonCom from "../../shared/ButtonCom";
 import Table from "../../shared/Table";
+import { getCookie } from "../../utils/getCookie";
 import { allStudentHeader } from "../../utils/staticObj";
 import "./css/slider.css";
 
 const AllStudent = () => {
+  const token = getCookie("authToken");
   const allStudentArray = useSelector((state) => state.teacherStudent);
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [allStudent, setAllStudent] = useState(true);

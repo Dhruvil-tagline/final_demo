@@ -1,27 +1,32 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
 import InputCom from "../../shared/InputCom";
 import Loader from "../../shared/Loader";
 import { putRequest } from "../../utils/api";
+import { getCookie } from "../../utils/getCookie";
 import validate from "../../utils/validate";
 import "./css/student.css";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.auth);
+  const user = getCookie("authUser");
+  const token = getCookie("authToken");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [data, setData] = useState({
+    name: user?.name || "Unknown",
+    email: user?.email || "data not found",
+  });
   const [name, setName] = useState("");
 
   const handleChange = (e) => {
     setName(e.target.value);
     if (error) {
       setError(validate(e.target.name, e.target.value));
-      if (e.target.value.trim() === user?.user?.name.trim()) {
+      if (e.target.value.trim() === data?.name.trim()) {
         setError("Updated name is same as actual name");
         return;
       }
@@ -47,6 +52,8 @@ const EditProfile = () => {
       );
       if (response.statusCode === 200) {
         toast.success("Name updated Successfully");
+        setData({ ...data, name: name });
+        document.cookie = `authUser=${JSON.stringify({...user,name:name})};path=/; max-age=${60 * 60}; secure`;
         dispatch({ type: "CHANGE_NAME", payload: name });
       } else {
         toast.error(response?.message || "Error occurred");
@@ -78,8 +85,8 @@ const EditProfile = () => {
           margin: "10px 0px",
         }}
       >
-        <p>Name: {user?.user?.name}</p>
-        <p>Email: {user?.user?.email}</p>
+        <p>Name: {data?.name}</p>
+        <p>Email: {data?.email}</p>
       </div>
       <hr className="horizontalRule" />
       <form style={{ marginTop: "10px" }}>

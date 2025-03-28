@@ -4,11 +4,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { fetchEditExamList } from "../../redux/action/examActions";
 import ButtonCom from "../../shared/ButtonCom";
 import Table from "../../shared/Table";
+import { getCookie } from "../../utils/getCookie";
 import { examDetailHeader } from "../../utils/staticObj";
 
-
 const ExamDetail = () => {
-  const { token } = useSelector((state) => state?.auth);
+  const token = getCookie("authToken");
   const { id } = useParams();
   const dispatch = useDispatch();
   const { state } = useLocation();

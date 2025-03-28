@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
 import InputPassword from "../../shared/InputPassword";
 import Loader from "../../shared/Loader";
 import { postRequest } from "../../utils/api";
+import { getCookie } from "../../utils/getCookie";
 import { resetPasswordErrorObj, resetPasswordObj } from "../../utils/staticObj";
 import validate from "../../utils/validate";
 import "./css/auth.css";
 
 const ResetPassword = () => {
-  const { token } = useSelector((state) => state.auth);
-
+  const token = getCookie("authToken");
   const [loading, setLoading] = useState(false);
   const [passwordObj, setPasswordObj] = useState(resetPasswordObj);
   const [error, setError] = useState(resetPasswordErrorObj);
@@ -23,6 +22,8 @@ const ResetPassword = () => {
     if (error[name]) {
       if (name === "confirmPassword") {
         errors[name] = validate(name, value, passwordObj?.password);
+      } else if (name === "oldPassword") {
+        errors[name] = validate("password", value);
       } else {
         errors[name] = validate(name, value);
       }
@@ -35,6 +36,8 @@ const ResetPassword = () => {
     Object.entries(passwordObj).forEach(([key, value]) => {
       if (key === "confirmPassword") {
         errors[key] = validate(key, value, passwordObj?.password);
+      } else if (key === "oldPassword") {
+        errors[key] = validate("password", value);
       } else {
         errors[key] = validate(key, value);
       }
@@ -130,7 +133,25 @@ const ResetPassword = () => {
             value={passwordObj.confirmPassword}
             onChange={handleChange}
           />
-          <ButtonCom type="submit">Submit</ButtonCom>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
+          >
+            <ButtonCom type="submit">Submit</ButtonCom>
+            <ButtonCom
+              type="button"
+              onClick={() => {
+                setPasswordObj(resetPasswordObj);
+                setError(resetPasswordObj);
+              }}
+            >
+              Cancel
+            </ButtonCom>
+          </div>
         </form>
       </div>
     </div>

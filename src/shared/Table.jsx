@@ -1,13 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import ButtonCom from "./ButtonCom";
 import "./css/table.css";
 
-const Table = ({
-  tableHeader,
-  tableData,
-  isLoading,
-  minWidth,
-  error,
-}) => {
+const Table = ({ tableHeader, tableData, isLoading, minWidth, error }) => {
+  const navigate = useNavigate();
   if (error) {
     return (
       <div
@@ -21,12 +17,12 @@ const Table = ({
           padding: "20px",
         }}
       >
-        <p className="no-data">
-          {" "}
-          Data not found 
-        </p>
+        <p className="no-data"> Error occurred go back or Refresh page</p>
         <ButtonCom onClick={() => window.location.reload(false)}>
           Refresh
+        </ButtonCom>
+        <ButtonCom onClick={() => navigate(-1)}>
+          Back
         </ButtonCom>
       </div>
     );

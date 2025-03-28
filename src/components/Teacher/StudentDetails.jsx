@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ButtonCom from "../../shared/ButtonCom";
 import Table from "../../shared/Table";
 import { getRequest } from "../../utils/api";
+import { getCookie } from "../../utils/getCookie";
 import { studentTableHeader } from "../../utils/staticObj";
 
 const StudentDetails = () => {
   const { id } = useParams();
-  const { token } = useSelector((state) => state.auth);
+  const token = getCookie("authToken");
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);

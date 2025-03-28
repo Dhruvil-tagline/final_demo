@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
@@ -7,12 +6,12 @@ import Loader from "../../shared/Loader";
 import RadioCom from "../../shared/RadioCom";
 import Table from "../../shared/Table";
 import { getRequest, postRequest } from "../../utils/api";
+import { getCookie } from "../../utils/getCookie";
 import { examFormHeader } from "../../utils/staticObj";
 import "./css/student.css";
 
-
 const ExamForm = () => {
-  const { token } = useSelector((state) => state.auth);
+  const token = getCookie("authToken");
   const { state } = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteExam, fetchExams } from "../../redux/action/examActions";
 import ButtonCom from "../../shared/ButtonCom";
-import { examListHeader } from "../../utils/staticObj";
 import Table from "../../shared/Table";
+import { getCookie } from "../../utils/getCookie";
+import { examListHeader } from "../../utils/staticObj";
 
 const ExamList = () => {
-  const { token } = useSelector((state) => state.auth);
+  const token = getCookie("authToken");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const examsList = useSelector((state) => state.exams);

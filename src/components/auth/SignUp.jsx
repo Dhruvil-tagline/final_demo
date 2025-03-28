@@ -38,7 +38,7 @@ const SignUp = () => {
   const addUser = async () => {
     try {
       setLoading(true);
-      let response = await postRequest("users/SignUp", user);
+      let response = await postRequest("users/SignUp", {data:user});
       if (response.statusCode === 200) {
         toast.success(response?.message);
         setUser(signUpUserObj);

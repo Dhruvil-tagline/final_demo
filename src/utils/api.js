@@ -17,7 +17,9 @@ export const postRequest = async (
     });
     return response.data;
   } catch (error) {
-    toast.error(errorMessage || error?.response?.data?.message || "server Error");
+    toast.error(
+      errorMessage || error?.response?.data?.message || "server Error",
+    );
   }
 };
 
