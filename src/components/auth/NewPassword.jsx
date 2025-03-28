@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
 import InputPassword from "../../shared/InputPassword";
@@ -9,19 +9,18 @@ import validate from "../../utils/validate";
 import "./css/auth.css";
 
 const NewPassword = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
   const user = {
     Password: data.password,
     ConfirmPassword: data.confirmPassword,
   };
-
-  const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
-
-  const [searchParams] = useSearchParams();
   let token = searchParams.get("token");
 
   useEffect(() => {
@@ -44,10 +43,11 @@ const NewPassword = () => {
       setLoading(true);
       const response = await postRequest(
         `users/ForgotPassword/Verify?token=${token}`,
-        {data:user}
+        { data: user },
       );
       if (response?.statusCode === 200) {
         toast.success(response?.message);
+        navigate("/login");
         setData({ password: "", confirmPassword: "" });
       } else {
         toast.error(response?.message);

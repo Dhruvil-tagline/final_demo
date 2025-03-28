@@ -21,9 +21,7 @@ const Table = ({ tableHeader, tableData, isLoading, minWidth, error }) => {
         <ButtonCom onClick={() => window.location.reload(false)}>
           Refresh
         </ButtonCom>
-        <ButtonCom onClick={() => navigate(-1)}>
-          Back
-        </ButtonCom>
+        <ButtonCom onClick={() => navigate(-1)}>Back</ButtonCom>
       </div>
     );
   }

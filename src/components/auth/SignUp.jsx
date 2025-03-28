@@ -38,9 +38,10 @@ const SignUp = () => {
   const addUser = async () => {
     try {
       setLoading(true);
-      let response = await postRequest("users/SignUp", {data:user});
+      let response = await postRequest("users/SignUp", { data: user });
       if (response.statusCode === 200) {
         toast.success(response?.message);
+        toast.success("Please verify your email");
         setUser(signUpUserObj);
         navigate("/login");
       } else {

@@ -41,16 +41,17 @@ const StudentDashboard = () => {
       Notes: val?.notes.join(", "),
       Action: val?.Result?.length ? (
         <ButtonCom onClick={() => navigate("/result", { state: val })}>
-          View result
+          <span style={{color:"green"}}>View result</span>
         </ButtonCom>
       ) : (
         <ButtonCom
+          style={{ color: "blue" }}
           onClick={() =>
             navigate("/examForm", {
               state: {
                 id: val?._id,
                 subjectName: val?.subjectName,
-                notes: val?.notes,
+                notes: val.notes,
               },
             })
           }

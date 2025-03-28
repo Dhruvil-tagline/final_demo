@@ -10,7 +10,7 @@ function InputCom({ name, id, value, onChange, type, placeholder }) {
         onChange={onChange}
         name={name}
         id={id}
-        autoComplete="on"
+        autoComplete="off"
       />
     </div>
   );

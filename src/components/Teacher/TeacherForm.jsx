@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { createExam, updateExam } from "../../redux/action/examActions";
 import ButtonCom from "../../shared/ButtonCom";
 import InputCom from "../../shared/InputCom";
@@ -198,11 +199,13 @@ const TeacherForm = () => {
       } else if (examData.notes[0].trim() === examData.notes[1].trim()) {
         errors.noteError = "Notes can not be same";
       }
-      if (result) {
-        !result.every((val) => val) &&
-          (errors.queError = "Please fill out all the question");
-      }
       setError(errors);
+      if (result) {
+        if (!result.every((val) => val)) {
+          errors.queError = "Please fill out all the question";
+          toast.error("Please fill out all the question");
+        }
+      }
       return Object.values(errors).every((val) => !val);
     },
     [examData],
@@ -324,11 +327,6 @@ const TeacherForm = () => {
             >
               Question
             </label>
-            {error?.queError && (
-              <span style={{ color: "red", marginLeft: "10px" }}>
-                {error.queError}
-              </span>
-            )}
             <div>
               <div
                 style={{

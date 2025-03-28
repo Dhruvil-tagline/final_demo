@@ -15,15 +15,16 @@ const ExamForm = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState(null);
   const [exam, setExam] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentAnsIndex, setCurrentAnsIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [remainingAnswer, setRemaining] = useState([]);
   const [reviewMode, setReviewMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { id, subjectName, notes } = state;
-
+  console.log(currentAnsIndex);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,10 +67,17 @@ const ExamForm = () => {
   const handlePrev = () => {
     setCurrentQuestionIndex((prev) => prev - 1);
   };
-
   const handleSubmitAndReview = () => {
     setReviewMode(true);
+    console.log(selectedAnswers);
     setIsEditing(true);
+    let x = selectedAnswers.map((val, index) => {
+      if (!val.answer) {
+        return { ...exam[index], id: index };
+      }
+    });
+    let data = x.filter((val) => val);
+    setRemaining(data);
   };
 
   const handleEditAnswer = (index) => {
@@ -96,6 +104,19 @@ const ExamForm = () => {
       setLoading(false);
     }
   };
+
+  const remainingAnswerData = useMemo(() => {
+    return remainingAnswer.map((q, idx) => ({
+      Index: idx + 1,
+      Question: q.question,
+      Answer: "",
+      Action: (
+        <ButtonCom onClick={() => handleEditAnswer(q.id)}>
+          Edit Answer
+        </ButtonCom>
+      ),
+    }));
+  }, [remainingAnswer]);
 
   const tableData = useMemo(() => {
     return exam.map((q, idx) => ({
@@ -244,15 +265,72 @@ const ExamForm = () => {
                   gap: "20px",
                 }}
               >
-                <h2>Review Your Answers</h2>
                 <div>
-                  <Table
-                    tableData={tableData}
-                    tableHeader={examFormHeader}
-                    dataNotFound={!exam.length}
-                  />
+                  <h2>Review Your Answers</h2>
+                  <div>
+                    <Table
+                      tableData={tableData}
+                      tableHeader={examFormHeader}
+                      dataNotFound={!exam.length}
+                    />
+                  </div>
                 </div>
-                <ButtonCom onClick={handleSubmit}>Final Submit</ButtonCom>
+                <div>
+                  <h2>Remaining Answers</h2>
+                  <div>
+                    <Table
+                      tableData={remainingAnswerData}
+                      tableHeader={examFormHeader}
+                      dataNotFound={!remainingAnswerData.length}
+                    />
+                  </div>
+                  <ButtonCom onClick={handleSubmit}>Final Submit</ButtonCom>
+                </div>
+                <div style={{ display: "flex", gap: "15px", flexWrap: "wrap" }}>
+                  <p style={{ margin: "10px 0px", fontSize: "20px" }}>
+                    Question {currentQuestionIndex + 1}:
+                    {remainingAnswer[currentAnsIndex]?.question}
+                  </p>
+                  {remainingAnswer[currentAnsIndex]?.options.map(
+                    (opt, index) => {
+                      return (
+                        <RadioCom
+                          key={index}
+                          text={opt}
+                          value={opt}
+                          name={`option-${remainingAnswer[currentAnsIndex].id}`}
+                          checked={
+                            selectedAnswers[remainingAnswer[currentAnsIndex].id]
+                              ?.answer === opt
+                          }
+                          onChange={() =>
+                            handleAnswerSelect(
+                              exam[remainingAnswer[currentAnsIndex].id]?._id,
+                              opt,
+                            )
+                          }
+                        />
+                      );
+                    },
+                  )}
+                  <ButtonCom
+                    disabled={currentAnsIndex === 0}
+                    onClick={() => setCurrentAnsIndex(currentAnsIndex - 1)}
+                  >
+                    Previous
+                  </ButtonCom>
+                  {currentAnsIndex + 2 <= remainingAnswer.length ? (
+                    <ButtonCom
+                      onClick={() => setCurrentAnsIndex(currentAnsIndex + 1)}
+                    >
+                      Next
+                    </ButtonCom>
+                  ) : (
+                    <ButtonCom onClick={handleSubmitAndReview}>
+                      Submit and Review
+                    </ButtonCom>
+                  )}
+                </div>
               </div>
             )}
           </div>

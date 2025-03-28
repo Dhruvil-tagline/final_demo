@@ -22,8 +22,18 @@ const StudentDetails = () => {
       studentData?.Result.map((val) => ({
         Index: index++,
         Subject: val.subjectName,
-        Score: val.score,
-        Rank: val.rank,
+        Score:
+          val.score <= 3 ? (
+            <span style={{ color: "red" }}>{val.score}</span>
+          ) : (
+            <span style={{ color: "green" }}>{val.score}</span>
+          ),
+        Rank:
+          val.rank <= 3 ? (
+            <span style={{ color: "red" }}>{val.rank}</span>
+          ) : (
+            <span style={{ color: "green" }}>{val.rank}</span>
+          ),
       }))
     );
   }, [studentData]);

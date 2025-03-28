@@ -15,7 +15,7 @@ const RadioCom = ({ text, name, value, onChange, checked }) => {
           onChange={onChange}
           value={value}
         />
-        <label htmlFor={id} style={{ marginLeft: "5px" }}>
+        <label htmlFor={id} style={{ marginLeft: "5px", cursor: 'pointer' }}>
           {text}
         </label>
       </div>

@@ -73,10 +73,10 @@ const ForgetPassword = () => {
               flexWrap: "wrap",
             }}
           >
-            <ButtonCom type="submit">Submit</ButtonCom>
             <ButtonCom type="button" onClick={() => navigate(-1)}>
               Back
             </ButtonCom>
+            <ButtonCom type="submit">Submit</ButtonCom>
           </div>
         </form>
       </div>

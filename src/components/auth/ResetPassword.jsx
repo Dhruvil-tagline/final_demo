@@ -141,7 +141,6 @@ const ResetPassword = () => {
               gap: "10px",
             }}
           >
-            <ButtonCom type="submit">Submit</ButtonCom>
             <ButtonCom
               type="button"
               onClick={() => {
@@ -151,6 +150,7 @@ const ResetPassword = () => {
             >
               Cancel
             </ButtonCom>
+            <ButtonCom type="submit">Submit</ButtonCom>
           </div>
         </form>
       </div>

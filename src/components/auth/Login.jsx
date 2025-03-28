@@ -1,23 +1,20 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/action/authAction";
+import { toast } from "react-toastify";
 import ButtonCom from "../../shared/ButtonCom";
 import InputCom from "../../shared/InputCom";
 import InputPassword from "../../shared/InputPassword";
 import Loader from "../../shared/Loader";
+import { postRequest } from "../../utils/api";
 import { errorObj, userObj } from "../../utils/staticObj";
 import validate from "../../utils/validate";
 import "./css/auth.css";
 
 const Login = () => {
-  const dispatch = useDispatch();
-
   const [user, setUser] = useState(userObj);
-  const { loading } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(errorObj);
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -27,15 +24,29 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = {};
     Object.entries(user).forEach(([key, value]) => {
       errors[key] = validate(key, value);
     });
     setError(errors);
-    Object.values(errors).every((val) => !val) &&
-      dispatch(loginUser(user, navigate));
+    if (Object.values(errors).every((val) => !val)) {
+      try {
+        setLoading(true);
+        const response = await postRequest("users/Login", { data: user });
+        if (response.statusCode === 200) {
+          document.cookie = `authToken=${response?.data?.token}; path=/; max-age=${60 * 60}; secure`;
+          document.cookie = `authUser=${JSON.stringify(response?.data)};path=/; max-age=${60 * 60}; secure`;
+          toast.success(response.message);
+          navigate("/dashboard");
+        } else {
+          toast.info(response.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (

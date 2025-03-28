@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import exam from "../../assets/exam.png";
@@ -12,14 +11,12 @@ import "./navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [openNav, setOpenNav] = useState(false);
 
   const user = getCookie("authUser");
   let navObj = user?.role === "teacher" ? teacherNavObj : studentNavObj;
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
     document.cookie = "authToken=; path=/; max-age=0";
     document.cookie = "authUser=; path=/; max-age=0";
     toast.success("Logout Successfully");
@@ -34,7 +31,14 @@ const Navbar = () => {
         <div className="logoDiv">
           <div className="logoAndMenu">
             <div className="logo">
-              <img src={exam} alt="ExamCite" height="40px" width="40px" />
+              <img
+                src={exam}
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/dashboard")}
+                alt="ExamCite"
+                height="40px"
+                width="40px"
+              />
             </div>
             <div className="menuDiv">
               <img
