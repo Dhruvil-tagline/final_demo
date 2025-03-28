@@ -1,7 +1,7 @@
 import { useState } from "react";
 import eyesClose from "../assets/eyesClose.png";
 import eyesOpen from "../assets/eyesOpen.png";
-import './ComponentCss/passwordInput.css'
+import './css/passwordInput.css'
 
 const InputPassword = ({ name, id, value, onChange, placeholder }) => {
   const [type, setType] = useState("password");
@@ -16,7 +16,7 @@ const InputPassword = ({ name, id, value, onChange, placeholder }) => {
     }
   };
   return (
-    <div className="inputWithImg" style={{ padding: "10px 0px" }}>
+    <div className="inputWithImg">
       <input
         className="input"
         placeholder={placeholder}
@@ -30,8 +30,8 @@ const InputPassword = ({ name, id, value, onChange, placeholder }) => {
       <img
         src={icon}
         alt="password icon"
-        width="30px"
-        height="30px"
+        width="25px"
+        height="25px"
         onClick={handleToggle}
       />
     </div>

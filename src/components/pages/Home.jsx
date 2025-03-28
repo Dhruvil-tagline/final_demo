@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Footer from "../Footer";
-import Navbar from "../Navbar";
+import Footer from '../layout/Footer';
+import Navbar from "../layout/Navbar";
 
 const Home = () => {
   const { pathname } = useLocation();

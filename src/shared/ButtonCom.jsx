@@ -1,4 +1,4 @@
-import "./ComponentCss/button.css";
+import "./css/button.css";
 
 const ButtonCom = ({ onClick, type, disabled, color, children }) => {
   return (

@@ -1,4 +1,4 @@
-import "./ComponentCss/input.css";
+import "./css/input.css";
 function InputCom({ name, id, value, onChange, type, placeholder }) {
   return (
     <div style={{ padding: "10px 0px" }}>

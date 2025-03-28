@@ -2,20 +2,22 @@ import { toast } from "react-toastify";
 import axiosInstance from "./axiosInstance";
 import { getCookie } from "./getCookie";
 
-export const postRequest = async (url, data, headers = {}) => {
+export const postRequest = async (
+  url,
+  { data, headers = {}, errorMessage },
+) => {
   const token = getCookie("authToken");
   try {
     const response = await axiosInstance.post(`/${url}`, data, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}` : "",
+        Authorization: token && `Bearer ${token}`,
         ...headers,
       },
     });
     return response.data;
   } catch (error) {
-    console.log(error)
-    toast.error(error?.message || "server Error");
+    toast.error(errorMessage || error?.response?.data?.message || "server Error");
   }
 };
 

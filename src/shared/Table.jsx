@@ -1,12 +1,35 @@
 import ButtonCom from "./ButtonCom";
-import "./ComponentCss/table.css";
+import "./css/table.css";
 
-const Table = ({ tableHeader, tableData, isLoading, minWidth, error }) => {
+const Table = ({
+  tableHeader,
+  tableData,
+  isLoading,
+  minWidth,
+  error,
+}) => {
   if (error) {
-    return<div style={{display:"flex", flexDirection:"column",gap:"20px", justifyContent:"center", alignItems:"center", background:"black", padding:"20px"}}>
-       <p className="no-data"> Error occurred please refresh the page</p>
-       <ButtonCom onClick={()=> window.location.reload(false)}>Refresh</ButtonCom>
-    </div>
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "black",
+          padding: "20px",
+        }}
+      >
+        <p className="no-data">
+          {" "}
+          Data not found 
+        </p>
+        <ButtonCom onClick={() => window.location.reload(false)}>
+          Refresh
+        </ButtonCom>
+      </div>
+    );
   }
   return (
     <div className="table-container">

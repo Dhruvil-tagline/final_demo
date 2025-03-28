@@ -1,6 +1,6 @@
 import { getCookie } from "../../utils/getCookie";
-import ResetPassword from "../ResetPassword";
-import StudentProfile from "../StudentCom/StudentProfile";
+import ResetPassword from "../auth/ResetPassword";
+import StudentProfile from '../Student/StudentProfile'
 
 const Profile = () => {
   const user = getCookie("authUser");

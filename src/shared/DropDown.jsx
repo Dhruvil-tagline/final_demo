@@ -1,4 +1,4 @@
-import "./ComponentCss/dropdown.css";
+import "./css/dropdown.css";
 
 const DropDown = ({ value, onChange, dropObj, id, name }) => {
   return (

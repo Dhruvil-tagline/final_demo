@@ -1,5 +1,5 @@
 import { useId } from "react";
-import "./ComponentCss/radio.css";
+import "./css/radio.css";
 
 const RadioCom = ({ text, name, value, onChange, checked }) => {
   const id = useId();
